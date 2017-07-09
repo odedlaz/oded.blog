@@ -1,0 +1,81 @@
+# Menus
+menu:
+  Keys: crypto-keys
+  About: whoami
+
+# Customize
+customize:
+    logo:
+        enabled: false
+        width: 40
+        height: 40
+        url:
+    profile:
+        enabled: true # Whether to show profile bar
+        avatar: /images/logo.jpg
+        gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
+        author: Oded Lazar
+        author_title: I program during the day, and think about the bugs I created at night. 
+        location: Tel Aviv, Israel
+        follow: https://github.com/odedlaz
+    highlight: monokai
+    sidebar: right # sidebar position, options: left, right or leave it empty
+    thumbnail: false # enable posts thumbnail, options: true, false
+    favicon: # path to favicon
+    social_links:
+        github: https://github.com/odedlaz
+        twitter: https://twitter.com/odedlaz
+        linkedin: https://linkedin.com/in/odedlaz
+        rss: https://oded.blog/atom.xml
+    social_link_tooltip: true # enable the social link tooltip, options: true, false
+
+# Widgets
+widgets:
+    - recent_posts
+    - tagcloud
+    - category
+
+# Search
+search:
+    insight: true # you need to install `hexo-generator-json-content` before using Insight Search
+    swiftype: # enter swiftype install key here
+    baidu: false # you need to disable other search engines to use Baidu search, options: true, false
+
+# Comment
+comment:
+    disqus: odedlaz
+    duoshuo: # enter duoshuo shortname here
+    youyan: # enter youyan uid here
+    facebook: # 181897135675913 # enter true to enable
+    isso:
+    changyan:
+        appid:
+        conf:
+    gitment:
+        owner:
+        repo:
+        client_id:
+        client_secret:
+
+# Share
+share: default # options: jiathis, bdshare, addtoany, default
+
+# Plugins
+plugins:
+    lightgallery: true # options: true, false
+    justifiedgallery: true # options: true, false
+    google_analytics: # "UA-91802969-1" # enter the tracking ID for your Google Analytics
+    google_site_verification: # enter Google site verification code
+    baidu_analytics: # enter Baidu Analytics hash key
+    mathjax: false # options: true, false
+    katex: true # options: true, false
+
+# Miscellaneous
+miscellaneous:
+    open_graph: # see http://ogp.me
+        fb_app_id:
+        fb_admins:
+        twitter_id:
+        google_plus:
+    links:
+        Hexo: http://hexo.io

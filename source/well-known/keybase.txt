@@ -1,0 +1,55 @@
+==================================================================
+https://keybase.io/odedlaz
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://oded.blog
+  * I am odedlaz (https://keybase.io/odedlaz) on keybase.
+  * I have a public key ASAU1lUk2Ot0OhWdA-AB6YzuAJKxIXTvwesw-v6GAZ1rlAo
+
+To do so, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "eldest_kid": "012014d65524d8eb743a159d03e001e98cee0092b12174efc1eb30fafe86019d6b940a",
+            "host": "keybase.io",
+            "kid": "012014d65524d8eb743a159d03e001e98cee0092b12174efc1eb30fafe86019d6b940a",
+            "uid": "fe14a74eea281118d7650d0977cb4619",
+            "username": "odedlaz"
+        },
+        "merkle_root": {
+            "ctime": 1497949574,
+            "hash": "277a5be310f8f07e0063f980eb034ba4c06a2a9d23c88c0ff368a1cbff7a22f2c81163cb08c04b3600e81aad347c88a0e87ffcabdcf71cb269a1002204d61917",
+            "hash_meta": "69fb96315c04015c0414b85e5f3a99bf18aa457409457b1c0424c7c1ee0c1990",
+            "seqno": 1182034
+        },
+        "service": {
+            "hostname": "oded.blog",
+            "protocol": "https:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "client": {
+        "name": "keybase.io go client",
+        "version": "1.0.24"
+    },
+    "ctime": 1497949590,
+    "expire_in": 504576000,
+    "prev": "43f787d90e30e2c9ddb7ff72e5349a3f8eb1bad3443ab366dc4c166ee1e91f94",
+    "seqno": 40,
+    "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEgFNZVJNjrdDoVnQPgAemM7gCSsSF078HrMPr+hgGda5QKp3BheWxvYWTFA0F7ImJvZHkiOnsia2V5Ijp7ImVsZGVzdF9raWQiOiIwMTIwMTRkNjU1MjRkOGViNzQzYTE1OWQwM2UwMDFlOThjZWUwMDkyYjEyMTc0ZWZjMWViMzBmYWZlODYwMTlkNmI5NDBhIiwiaG9zdCI6ImtleWJhc2UuaW8iLCJraWQiOiIwMTIwMTRkNjU1MjRkOGViNzQzYTE1OWQwM2UwMDFlOThjZWUwMDkyYjEyMTc0ZWZjMWViMzBmYWZlODYwMTlkNmI5NDBhIiwidWlkIjoiZmUxNGE3NGVlYTI4MTExOGQ3NjUwZDA5NzdjYjQ2MTkiLCJ1c2VybmFtZSI6Im9kZWRsYXoifSwibWVya2xlX3Jvb3QiOnsiY3RpbWUiOjE0OTc5NDk1NzQsImhhc2giOiIyNzdhNWJlMzEwZjhmMDdlMDA2M2Y5ODBlYjAzNGJhNGMwNmEyYTlkMjNjODhjMGZmMzY4YTFjYmZmN2EyMmYyYzgxMTYzY2IwOGMwNGIzNjAwZTgxYWFkMzQ3Yzg4YTBlODdmZmNhYmRjZjcxY2IyNjlhMTAwMjIwNGQ2MTkxNyIsImhhc2hfbWV0YSI6IjY5ZmI5NjMxNWMwNDAxNWMwNDE0Yjg1ZTVmM2E5OWJmMThhYTQ1NzQwOTQ1N2IxYzA0MjRjN2MxZWUwYzE5OTAiLCJzZXFubyI6MTE4MjAzNH0sInNlcnZpY2UiOnsiaG9zdG5hbWUiOiJvZGVkLmJsb2ciLCJwcm90b2NvbCI6Imh0dHBzOiJ9LCJ0eXBlIjoid2ViX3NlcnZpY2VfYmluZGluZyIsInZlcnNpb24iOjF9LCJjbGllbnQiOnsibmFtZSI6ImtleWJhc2UuaW8gZ28gY2xpZW50IiwidmVyc2lvbiI6IjEuMC4yNCJ9LCJjdGltZSI6MTQ5Nzk0OTU5MCwiZXhwaXJlX2luIjo1MDQ1NzYwMDAsInByZXYiOiI0M2Y3ODdkOTBlMzBlMmM5ZGRiN2ZmNzJlNTM0OWEzZjhlYjFiYWQzNDQzYWIzNjZkYzRjMTY2ZWUxZTkxZjk0Iiwic2Vxbm8iOjQwLCJ0YWciOiJzaWduYXR1cmUifaNzaWfEQKK/5wewR5z39r71IeTmZdGeVhOvubGXRx4pM5eOKoEfLtqy+KW9EK3YMBnVRMX40Fr2ZPcMU2sq/HpaKqyfVwOoc2lnX3R5cGUgpGhhc2iCpHR5cGUIpXZhbHVlxCCa/zj/EKj14XtYSNA+mbwyYzOUg8EXHBmjQ/cq3GWUHKN0YWfNAgKndmVyc2lvbgE=
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/odedlaz
+
+==================================================================

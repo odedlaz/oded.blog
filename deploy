@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/generate
+
+rm -rf "$DIR/.deploy_git/"
+hexo deploy git
