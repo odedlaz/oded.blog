@@ -33,7 +33,7 @@ Later in the series I'll show how to use different async paradigms using the new
 
 * **2015** New `async` & `await` keywords came into existence in [PEP 492](https://www.python.org/dev/peps/pep-0492/) which introduced *real* coroutines and made async programming a breeze. [Those were added to Python 3.5](https://docs.python.org/3/whatsnew/3.5.html#pep-492-coroutines-with-async-and-await-syntax).
 
-* **2016** [PEP 492](https://www.python.org/dev/peps/pep-0492) & [PEP 530](https://www.python.org/dev/peps/pep-0530/) added [async generators](https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep525) & [async comprehensions](https://docs.python.org/3/whatsnew/3.6.html#pep-530-asynchronous-comprehensions) to [Python 3.6](https://docs.python.org/3/whatsnew/3.6.html).
+* **2016** [PEP 492](https://www.python.org/dev/peps/pep-0492) & [PEP 530](https://www.python.org/dev/peps/pep-0530/) added [async generators](https://docs.python.org/3/whatsnew/3.6.html#whatsnew36-pep525), [async comprehensions](https://docs.python.org/3/whatsnew/3.6.html#pep-530-asynchronous-comprehensions) to [Python 3.6](https://docs.python.org/3/whatsnew/3.6.html).
 
 ## How does `async` & `await` work?
 
