@@ -24,8 +24,8 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
-
+include:
+  - .nojekyll
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
@@ -68,13 +68,9 @@ deploy:
   - type: git
     repo: git@github.com:odedlaz/odedlaz.github.io.git
     branch: master
-  - type: git
-    repo: git@github.com:odedlaz/odedlaz.github.io.git
-    branch: src
-    extend_dirs: /
     ignore_hidden: false
-    ignore_pattern:
-        public: .
+    extend_dirs:
+      - .well-known
 
 feed:
   type: atom
