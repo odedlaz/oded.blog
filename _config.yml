@@ -89,5 +89,5 @@ js_minifier:
   enable: true
 
 image_minifier:
-  enable: false
+  enable: true
 
