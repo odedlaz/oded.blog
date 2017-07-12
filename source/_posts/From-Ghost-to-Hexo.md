@@ -36,7 +36,7 @@ A full explanation can be found at - [From WordPress.com to Ghost on DigitalOcea
 #### Server runtime with no server features
 
 Ghost doesn't offer any dynamic features, and honestly - I don't really need any.  
-My entire blog is static, except for the comments part which is provided by [Disqus](disqus.com).
+My entire blog is static, except for comments which are provided by [Disqus](disqus.com).
 
 That means I needed to setup a server for a (de-facto) static website.
 
@@ -44,13 +44,13 @@ That means I needed to setup a server for a (de-facto) static website.
 
 My blog wasn't snappy enough. There are a number of "blame" factors:
 - Ghost isn't fast enough (I never checked that)
-- The droplet I was paying for didn't supply resources for Ghost
+- The droplet I was paying for didn't supply enough resources for Ghost
 
 
-I had to redirect my users to [AMP](https://www.ampproject.org/). I set up rules on nginx to only redirect mobile users to AMP, which I didn't like for serveral reasons:
+I decided to redirect my users to [AMP](https://www.ampproject.org/) to gain extra speed. I set up rules on nginx to only redirect mobile users to AMP, which I didn't like for serveral reasons:
 
-1. AMP removed disqus and mathjax (which made some posts unredable from mobile)
-2. It give my users two distinct websites, with a completely different design.
+1. AMP removed disqus and mathjax (which made some posts unreadable from mobile)
+2. It gives my users two distinct websites, with a completely different design.
 
 Plus, Everything [Alex Kras](https://www.alexkras.com/about/) wrote about the subject - [I decided to disable AMP on my site
 ](https://www.alexkras.com/i-decided-to-disable-amp-on-my-site/).

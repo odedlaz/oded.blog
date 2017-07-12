@@ -9,12 +9,13 @@ categories:
   - programming
 date: 2017-05-30 15:29:00
 ---
-
 One of pythons strongest built-in data type is the [dictionary](https://docs.python.org/3/library/stdtypes.html#dict). You can find it everywhere - from a simple key-value store, to a piece of a complex data structure, and all the way down to one of the basic building block of python's attribute access mechanism.
 
 It's probably one of the most important data structures in python, and as such, one needs to understand it.
 
 ![](/images/2017/05/hashtable.jpg)
+
+<!-- more -->
 
 ## The Mighty Dictionary
 
