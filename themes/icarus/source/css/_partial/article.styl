@@ -314,43 +314,6 @@ $article-share-link
         background: color-google
         text-shadow: 0 1px darken(color-google, 20%)
 
-.article-gallery
-    overflow: hidden
-    background: black
-    position: relative
-    text-align: center
-    margin: line-height 0
-    .gallery-item
-        display: none
-        max-width: 100%
-        &:before,
-        &:after
-            top: 50%
-            width: 40px
-            height: 36px
-            font-size: 36px
-            line-height: 36px
-            margin-top: -18px
-            position: absolute
-            font-family: FontAwesome
-            color: rgba(255, 255, 255, .5)
-        &:hover
-            &:before,
-            &:after
-                color: rgba(255, 255, 255, .8)
-        &:before
-            left: 0
-            content: "\f104"
-        &:after
-            right: 0
-            content: "\f105"
-        &:first-child
-            display: block
-        img
-            display: block
-            max-width: 100%
-            margin: 0 auto
-
 /* topic section */
 .toc-article
     background #F9F9F9
@@ -410,8 +373,3 @@ ol.toc
         float: right
         margin-left: 10px
         margin-right: 0
-
-/* lightgallery */
-.lg-outer
-    .lg-thumb-item
-        border-radius: 0 !important

@@ -37,20 +37,13 @@ widgets:
 
 # Search
 search:
-    insight: true # you need to install `hexo-generator-json-content` before using Insight Search
-    swiftype: # enter swiftype install key here
-    baidu: false # you need to disable other search engines to use Baidu search, options: true, false
+    insight: true # depends on 'hexo-generator-json-content'
+    swiftype: # enter swiftype install key
 
 # Comment
 comment:
     disqus: thoughts-data-bugs
-    duoshuo: # enter duoshuo shortname here
-    youyan: # enter youyan uid here
-    facebook: # 181897135675913 # enter true to enable
-    isso:
-    changyan:
-        appid:
-        conf:
+    facebook: # enter app id
     gitment:
         owner:
         repo:
@@ -58,15 +51,12 @@ comment:
         client_secret:
 
 # Share
-share: default # options: jiathis, bdshare, addtoany, default
+share: default # options: addtoany, default
 
 # Plugins
 plugins:
-    lightgallery: true # options: true, false
-    justifiedgallery: true # options: true, false
-    google_analytics: # "UA-91802969-1" # enter the tracking ID for your Google Analytics
+    google_analytics: # enter the tracking ID for your Google Analytics
     google_site_verification: # enter Google site verification code
-    baidu_analytics: # enter Baidu Analytics hash key
     mathjax: false # options: true, false
     katex: true # options: true, false
 
