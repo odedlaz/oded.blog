@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-hexo clean && hexo generate
+hexo clean && hexo generate --config _config.dev.yml

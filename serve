@@ -1,6 +1,2 @@
 #!/usr/bin/env bash
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-"$DIR/generate"
-
-hexo serve -p 8080 -s
+hexo serve -p 8080 --config "_config.dev.yml"

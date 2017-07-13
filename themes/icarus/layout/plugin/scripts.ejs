@@ -1,9 +1,6 @@
 <% if (typeof(isHead) !== 'undefined' && isHead) { %>
     <% if (theme.plugins.katex) { %>
-       <link rel="stylesheet"
-             href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css"
-             integrity="sha384-wITovz90syo1dJWVh32uuETPVEtGigN07tkttEqPv+uR2SE/mbQcG7ATL28aI9H0"
-             crossorigin="anonymous">
+      <%- css('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css') %>
     <% } %>
     <% if (theme.plugins.google_analytics) { %>
         <%- partial('plugin/google-analytics') %>
@@ -13,9 +10,7 @@
     <% } %>
 <% } else { %>
    <% if (theme.plugins.katex) { %>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js"
-              integrity="sha384-/y1Nn9+QQAipbNQWU65krzJralCnuOasHncUFXGkdwntGeSvQicrYkiUBwsgUqc1"
-              crossorigin="anonymous" async></script>
+      <%- js('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js') %>
    <% } %>
     <% if (theme.plugins.mathjax) { %>
         <script type="text/x-mathjax-config">

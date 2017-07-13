@@ -36,7 +36,7 @@ A full explanation can be found at - [From WordPress.com to Ghost on DigitalOcea
 #### Server runtime with no server features
 
 Ghost doesn't offer any dynamic features, and honestly - I don't really need any.  
-My entire blog is static, except for comments which are provided by [Disqus](disqus.com).
+My entire blog is static, except for comments which are provided by [Disqus](https://disqus.com).
 
 That means I needed to setup a server for a (de-facto) static website.
 
