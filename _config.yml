@@ -90,4 +90,39 @@ js_minifier:
 
 image_minifier:
   enable: true
+  optimizationLevel: 3
+  multipass: true
 
+jsonContent:
+  meta: false
+  keywords: false
+  pages:
+    title: true
+    slug: true
+    date: false
+    updated: false
+    comments: false
+    path: true
+    link: false
+    permalink: true
+    excerpt: false
+    keywords: true
+    text: false
+    raw: false
+    content: false
+  posts:
+    title: true
+    slug: true
+    date: false
+    updated: false
+    comments: false
+    path: true
+    link: false
+    permalink: true
+    excerpt: false
+    keywords: true
+    text: false
+    raw: false
+    content: false
+    categories: true
+    tags: true

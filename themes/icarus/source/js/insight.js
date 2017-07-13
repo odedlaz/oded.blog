@@ -53,7 +53,7 @@
     case 'PAGES': {
       $searchItems = array.map(function(item) {
         // Use config.root instead of permalink to fix url issue
-        return searchItem('file', item.title, null, item.excerpt,
+        return searchItem('file', item.title, null, null,
                           CONFIG.ROOT_URL + item.path);
       });
       break;
