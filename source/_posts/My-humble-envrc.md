@@ -15,7 +15,7 @@ This one is dedicated to all the lazy productivity enthusiasts out there. First,
 
 `.envrc` is the dotfile that [direnv](https://direnv.net/) uses to to do its magic. I usually split my `.envrc` into two parts:
 
-####.envrc
+#### .envrc
 A script that is tailored to the project at hand:
 ```bash
 source_env .pyenv
@@ -24,7 +24,7 @@ export NAME=odedlaz
 
 I put all my exports there.
 
-####.pyenv
+#### .pyenv
 A script that bootstraps anything my python app needs:
 ```bash
 layout python python3
