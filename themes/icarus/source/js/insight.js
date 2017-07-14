@@ -1,9 +1,4 @@
-/**
- * Insight search plugin
- * @author PPOffice { @link https://github.com/ppoffice }
- */
-
-(function($, CONFIG) {
+var run = function($, CONFIG) {
   var $main = $('.ins-search');
   var $input = $main.find('.ins-search-input');
   var $wrapper = $main.find('.ins-section-wrapper');
@@ -281,4 +276,6 @@
           break;
         }
       });
-})(jQuery, window.INSIGHT_CONFIG);
+};
+
+exports.run = run;

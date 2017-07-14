@@ -4,6 +4,8 @@ var Hexo = require('hexo');
 var pump = require('pump');
 var runSequence = require('run-sequence');
 
+var browserify = require('gulp-browserify');
+
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var htmlclean = require('gulp-htmlclean');
@@ -81,8 +83,15 @@ gulp.task('image-compress', function(cb) {
       cb);
 });
 
+gulp.task('browserify', function() {
+  gulp.src('./public/js/bootstrap.js')
+      .pipe(browserify({insertGlobals : true, debug : true}))
+      .pipe(gulp.dest('./public/js'));
+});
+
 gulp.task('compress', function(cb) {
   runSequence(
+      'browserify',
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 

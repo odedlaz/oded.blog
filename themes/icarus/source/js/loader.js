@@ -1,4 +1,4 @@
-(function($) {
+var run = function($) {
   var toTop = ($('#sidebar').height() - $(window).height()) + 60;
 
   // Profile card
@@ -33,4 +33,6 @@
             function() { $('body, html').animate({scrollTop : 0}, 600); });
   }
 
-})(jQuery);
+};
+
+exports.run = run
