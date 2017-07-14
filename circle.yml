@@ -1,0 +1,25 @@
+machine:
+  node:
+     version: v6.1.0
+  environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
+
+dependencies:
+  pre:
+    - rm -rf ~/.yarn
+    - npm install -g yarn gulp
+
+  override:
+    - yarn
+  cache_directories:
+    - ~/.cache/yarn
+
+deployment:
+  production:
+    branch: master
+    commands:
+      - git config --global user.name "CircleCI"
+      - git config --global user.email "ci@oded.blog"
+      - rm -rf .deploy_git/
+      - gulp build
+      - hexo deploy

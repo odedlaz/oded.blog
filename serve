@@ -1,2 +1,0 @@
-#!/usr/bin/env bash
-hexo serve -p 8080 --config "_config.dev.yml"

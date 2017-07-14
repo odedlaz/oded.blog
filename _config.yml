@@ -79,20 +79,6 @@ feed:
   hub:
   content:
 
-html_minifier:
-  enable: true
-
-css_minifier:
-  enable: true
-
-js_minifier:
-  enable: true
-
-image_minifier:
-  enable: true
-  optimizationLevel: 3
-  multipass: true
-
 jsonContent:
   meta: false
   keywords: false
