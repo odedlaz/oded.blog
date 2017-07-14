@@ -3,7 +3,6 @@
 <head>
    <%- partial('common/head') %>
    <%- css('css/style') %>
-   <%- js('https://code.jquery.com/jquery-2.2.4.min.js') %>
 
 </head>
 <body>
@@ -18,21 +17,11 @@
                 <%- partial('common/sidebar', null, {cache: !config.relative_link}) %>
             <% } %>
         </div>
-      
+
       <!-- not a script, not a style -->
       <%- partial('search/insight') %>
-
-      <!-- scripts -->
-      <%- partial('plugin/loader') %>
-      <%- partial('share/default') %>
-      <%- partial('search/config') %>
-      <%- partial('plugin/scripts') %>
-      <%- partial('comment/scripts') %>
-      <%- js('js/insight') %>
-      <%- js('js/main') %>
-      <!-- /scripts -->
-
       <%- partial('common/footer') %>
     </div>
+   <%- partial('common/scripts') %>
 </body>
 </html>
