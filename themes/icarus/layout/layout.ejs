@@ -1,4 +1,12 @@
-<%- partial('common/head') %>
+<!DOCTYPE html>
+<html<%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
+<head>
+   <%- partial('common/head') %>
+   <%- css(['css/style',
+            'css/fonts.min']) %>
+   <%- js('https://code.jquery.com/jquery-2.2.4.min.js') %>
+
+</head>
 <body>
     <div id="container">
         <%- partial('common/header') %>
@@ -11,8 +19,21 @@
                 <%- partial('common/sidebar', null, {cache: !config.relative_link}) %>
             <% } %>
         </div>
-        <%- partial('common/footer', null, {cache: !config.relative_link}) %>
-        <%- partial('common/scripts') %>
+      
+      <!-- not a script, not a style -->
+      <%- partial('search/insight') %>
+
+      <!-- scripts -->
+      <%- partial('plugin/loader') %>
+      <%- partial('share/default') %>
+      <%- partial('search/config') %>
+      <%- partial('plugin/scripts') %>
+      <%- partial('comment/scripts') %>
+      <%- js('js/insight') %>
+      <%- js('js/main') %>
+      <!-- /scripts -->
+
+      <%- partial('common/footer') %>
     </div>
 </body>
 </html>

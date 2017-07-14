@@ -21,7 +21,7 @@
                     </div>
                 </nav>
             <% } %>
-            <%- partial('search/index', { isHead: true }) %>
+            <%- partial('search/desktop') %>
         </div>
     </div>
     <div id="main-nav-mobile" class="header-sub header-inner">
@@ -31,7 +31,7 @@
                     <td><a class="main-nav-link" href="<%- url_for(theme.menu[i]) %>"><%= i %></a></td>
                 <% } %>
                 <td>
-                    <%- partial('search/index-mobile', { isHead: true }) %>
+                    <%- partial('search/mobile') %>
                 </td>
             </tr>
         </table>

@@ -1,0 +1,7 @@
+var <%=name%> = document.createElement('link');
+<%=name%>.rel = 'stylesheet';
+<%=name%>.href = '<%=path_to%>.css';
+<%=name%>.type = 'text/css';
+var <%=name%>_defer = document.getElementsByTagName('link')[0];
+
+<%=name%>_defer.parentNode.insertBefore(<%=name%>, <%=name%>_defer);

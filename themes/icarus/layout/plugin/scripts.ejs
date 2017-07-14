@@ -1,21 +1,14 @@
-<% if (typeof(isHead) !== 'undefined' && isHead) { %>
-    <% if (theme.plugins.katex) { %>
-      <%- css('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css') %>
-    <% } %>
-    <% if (theme.plugins.google_analytics) { %>
-        <%- partial('plugin/google-analytics') %>
-    <% } %>
-    <% if (theme.plugins.google_site_verification) { %>
-        <meta name="google-site-verification" content="<%= theme.plugins.google_site_verification %>" />
-    <% } %>
-<% } else { %>
-   <% if (theme.plugins.katex) { %>
-      <%- js('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js') %>
-   <% } %>
-    <% if (theme.plugins.mathjax) { %>
-        <script type="text/x-mathjax-config">
-            MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
-        </script>
-        <%- js('https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML') %>
-    <% } %>
+<% if (theme.plugins.katex) { %>
+   <%- js('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js') %>
+<% } %>
+
+ <% if (theme.plugins.mathjax) { %>
+     <script type="text/x-mathjax-config">
+         MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+     </script>
+     <%- js('https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML') %>
+ <% } %>
+
+<% if (theme.plugins.google_analytics) { %>
+    <%- partial('plugin/google-analytics') %>
 <% } %>

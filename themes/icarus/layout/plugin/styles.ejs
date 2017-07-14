@@ -1,0 +1,8 @@
+<% if (theme.plugins.katex) { %>
+
+   <%- partial('utils/defer_css', {
+      name: 'katex',
+      path_to: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min'
+   }) %>
+
+ <% } %>
