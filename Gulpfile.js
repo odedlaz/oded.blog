@@ -83,10 +83,12 @@ gulp.task('image-compress', function(cb) {
       cb);
 });
 
-gulp.task('browserify', function() {
-  gulp.src('./public/js/bootstrap.js')
-      .pipe(browserify({insertGlobals : true, debug : true}))
-      .pipe(gulp.dest('./public/js'));
+gulp.task('browserify', function(cb) {
+  pump([
+    gulp.src('./public/js/bootstrap.js'),
+    browserify({insertGlobals : true, debug : true}), uglify(),
+    gulp.dest('./public/js')
+  ]);
 });
 
 gulp.task('compress', function(cb) {
