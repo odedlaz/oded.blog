@@ -82,6 +82,12 @@ feed:
   hub:
   content:
 
+admin:
+    name: admin
+    password: admin # haha. only localhost, don't worry!
+    secret: i<3hummus
+    expire: 60*1
+
 jsonContent:
   meta: false
   keywords: false
