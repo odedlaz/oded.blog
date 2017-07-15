@@ -6,9 +6,10 @@ var source = require('vinyl-source-stream');
 var streamify = require('gulp-streamify');
 var pump = require('pump');
 var runSequence = require('run-sequence');
-
+var del = require('del');
+var rename = require("gulp-rename");
 var browserify = require('gulp-browserify');
-
+var vinylPaths = require('vinyl-paths');
 var uglify = require('gulp-uglify');
 var htmlmin = require('gulp-htmlmin');
 var htmlclean = require('gulp-htmlclean');
@@ -154,13 +155,21 @@ gulp.task('concat-js', (cb) => {
       cb);
 });
 
+gulp.task('google-verification', (cb) => {
+  return gulp.src("./public/google010b2effcd572c56")
+      .pipe(vinylPaths(del))
+      .pipe(rename("./public/google010b2effcd572c56.html"))
+      .pipe(gulp.dest("./"));
+});
+
 gulp.task('compress', (cb) => {
   runSequence(
       'concat-js',
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 
-gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate', cb)});
+gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
+                                        'google-verification', cb)});
 
 gulp.task('server', (cb) => {runSequence('build', 'hexo-server', cb)});
 
