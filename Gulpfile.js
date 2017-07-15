@@ -77,6 +77,12 @@ function get_cloudflare_zoneid(cb) {
   return cloudflare_api(url, 'GET', {}, (r) => cb(r.result[0].id));
 };
 
+gulp.task('ifttt-webhook', (cb) => {
+  var url = "https://maker.ifttt.com/trigger/blog-deployed/with/key/";
+  return request({url : url + process.env.IFTTT_KEY, method : 'POST'},
+                 (err, resp, body) => { console.log(body); });
+});
+
 gulp.task('hexo-server', (cb) => { exec_hexo('server', {port : 8080}, cb); });
 
 gulp.task('hexo-deploy', (cb) => { exec_hexo('deploy', {}, cb); });
@@ -173,7 +179,10 @@ gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
 
 gulp.task('server', (cb) => {runSequence('build', 'hexo-server', cb)});
 
+gulp.task(
+    'post-deploy',
+    (cb) => {runSequence([ 'purge-cloudflare-cache', 'ifttt-webhook' ], cb)});
 gulp.task('deploy', (cb) => {runSequence('build', 'compress', 'hexo-deploy',
-                                         'purge-cloudflare-cache', cb)});
+                                         'post-deploy', cb)});
 
 gulp.task('default', [])
