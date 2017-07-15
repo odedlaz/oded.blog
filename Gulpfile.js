@@ -62,7 +62,10 @@ function exec_hexo(fn, args, cb) {
       })
 }
 
-gulp.task('git-deploy', function(cb) { exec_hexo('deploy', {}, cb); });
+gulp.task('hexo-server',
+          function(cb) { exec_hexo('server', {port : 8080}, cb); });
+
+gulp.task('hexo-deploy', function(cb) { exec_hexo('deploy', {}, cb); });
 
 gulp.task('purge-cloudflare-cache', function(cb) {
   var on_response = function(err, response, body) {
@@ -95,9 +98,9 @@ gulp.task('purge-cloudflare-cache', function(cb) {
   });
 });
 
-gulp.task('clean', function(cb) { exec_hexo('clean', {}, cb); })
+gulp.task('hexo-clean', function(cb) { exec_hexo('clean', {}, cb); })
 
-gulp.task('generate',
+gulp.task('hexo-generate',
           function(cb) { exec_hexo('generate', {watch : false}, cb); })
 
 gulp.task('js-compress', function(cb) {
@@ -167,10 +170,12 @@ gulp.task('compress', function(cb) {
 });
 
 gulp.task('build',
-          function(cb) { runSequence('clean', 'generate', 'compress', cb) });
+          function(cb) { runSequence('hexo-clean', 'hexo-generate', cb) });
+
+gulp.task('server', function(cb) { runSequence('build', 'hexo-server', cb) });
 
 gulp.task('deploy', function(cb) {
-  runSequence('build', 'git-deploy', 'purge-cloudflare-cache', cb)
+  runSequence('build', 'compress', 'hexo-deploy', 'purge-cloudflare-cache', cb)
 });
 
 gulp.task('default', [])
