@@ -16,6 +16,8 @@ var minifyCss = require('gulp-clean-css');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 
+var jpegrecompress = require('imagemin-jpeg-recompress');
+
 var hexo = new Hexo(process.cwd(), {});
 
 var cloudflare = {
@@ -125,11 +127,17 @@ gulp.task('html-compress', (cb) => {
 gulp.task('image-compress', (cb) => {
   pump(
       [
-        gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png)'), imagemin([
+        gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png|svg)'), imagemin([
           imagemin.gifsicle({interlaced : true}),
-          imagemin.jpegtran({progressive : true}),
           imagemin.svgo({plugins : [ {removeViewBox : true} ]}),
-          pngquant({speed : 1, quality : 85, verbose : true})
+          pngquant({speed : 1, quality : 85, verbose : true}), jpegrecompress({
+            accuracy : true,
+            quality : "high",
+            progressive : true,
+            strip : true,
+            target : 0.85,
+            loops : 5
+          })
         ]),
         gulp.dest('./public/images')
       ],
