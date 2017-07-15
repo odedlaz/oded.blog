@@ -50,9 +50,6 @@ comment:
         client_id:
         client_secret:
 
-# Share
-share: default # options: addtoany, default
-
 # Plugins
 plugins:
     google_analytics: # enter the tracking ID for your Google Analytics
