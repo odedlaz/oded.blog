@@ -21,5 +21,4 @@ deployment:
       - git config --global user.name "CircleCI"
       - git config --global user.email "ci@oded.blog"
       - rm -rf .deploy_git/
-      - gulp build
-      - hexo deploy
+      - gulp deploy

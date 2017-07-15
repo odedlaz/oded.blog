@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 var Hexo = require('hexo');
+var request = require('request');
+var gutil = require('gulp-util');
 
 var pump = require('pump');
 var runSequence = require('run-sequence');
@@ -15,6 +17,38 @@ var pngquant = require('imagemin-pngquant');
 
 var hexo = new Hexo(process.cwd(), {});
 
+var cloudflare = {
+  email : process.env.CF_EMAIL,
+  auth_key : process.env.CF_AUTH_KEY
+};
+
+function get_cloudflare_zone_id(cb) {
+
+  var on_response = function(err, response, body) {
+    if (err) {
+      throw err;
+    }
+
+    if (!body.success) {
+      throw new Error(JSON.stringify(body));
+    }
+
+    cb(body.result[0]['id']);
+  };
+
+  request({
+    url : 'https://api.cloudflare.com/client/v4/zones?name=oded.blog',
+    method : 'GET',
+    headers : {
+      'X-AUTH-EMAIL' : cloudflare.email,
+      'X-Auth-Key' : cloudflare.auth_key,
+      'Content-Type' : 'application/json'
+    },
+    json : true
+  },
+          on_response);
+};
+
 inhex = hexo.init();
 
 function exec_hexo(fn, args, cb) {
@@ -27,6 +61,39 @@ function exec_hexo(fn, args, cb) {
         return cb(err);
       })
 }
+
+gulp.task('git-deploy', function(cb) { exec_hexo('deploy', {}, cb); });
+
+gulp.task('purge-cloudflare-cache', function(cb) {
+  var on_response = function(err, response, body) {
+    if (err) {
+      throw err;
+    }
+
+    if (!body.success) {
+      throw new Error(JSON.stringify(body));
+    }
+    console.log("cloudflare cached purged successully");
+
+    cb();
+  };
+
+  get_cloudflare_zone_id(function(zone_id) {
+    request({
+      url : 'https://api.cloudflare.com/client/v4/zones/' + zone_id +
+                '/purge_cache',
+      method : 'DELETE',
+      headers : {
+        'X-AUTH-EMAIL' : cloudflare.email,
+        'X-Auth-Key' : cloudflare.auth_key,
+        'Content-Type' : 'application/json'
+      },
+      body : {purge_everything : true},
+      json : true
+    },
+            on_response);
+  });
+});
 
 gulp.task('clean', function(cb) { exec_hexo('clean', {}, cb); })
 
@@ -83,21 +150,27 @@ gulp.task('image-compress', function(cb) {
       cb);
 });
 
-gulp.task('browserify', function(cb) {
-  pump([
-    gulp.src('./public/js/bootstrap.js'),
-    browserify({insertGlobals : true, debug : true}), uglify(),
-    gulp.dest('./public/js')
-  ]);
+gulp.task('concat-js', function(cb) {
+  pump(
+      [
+        gulp.src('./public/js/bootstrap.js'),
+        browserify({insertGlobals : true, debug : true}), uglify(),
+        gulp.dest('./public/js')
+      ],
+      cb);
 });
 
 gulp.task('compress', function(cb) {
   runSequence(
-      'browserify',
+      'concat-js',
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 
 gulp.task('build',
           function(cb) { runSequence('clean', 'generate', 'compress', cb) });
+
+gulp.task('deploy', function(cb) {
+  runSequence('build', 'git-deploy', 'purge-cloudflare-cache', cb)
+});
 
 gulp.task('default', [])
