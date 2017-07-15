@@ -1,8 +1,9 @@
 var gulp = require('gulp');
 var Hexo = require('hexo');
 var request = require('request');
-var gutil = require('gulp-util');
-
+var jeditor = require('gulp-json-editor');
+var source = require('vinyl-source-stream');
+var streamify = require('gulp-streamify');
 var pump = require('pump');
 var runSequence = require('run-sequence');
 
@@ -19,101 +20,83 @@ var hexo = new Hexo(process.cwd(), {});
 
 var cloudflare = {
   email : process.env.CF_EMAIL,
-  auth_key : process.env.CF_AUTH_KEY
-};
-
-function get_cloudflare_zone_id(cb) {
-
-  var on_response = function(err, response, body) {
-    if (err) {
-      throw err;
-    }
-
-    if (!body.success) {
-      throw new Error(JSON.stringify(body));
-    }
-
-    cb(body.result[0]['id']);
-  };
-
-  request({
-    url : 'https://api.cloudflare.com/client/v4/zones?name=oded.blog',
-    method : 'GET',
-    headers : {
-      'X-AUTH-EMAIL' : cloudflare.email,
-      'X-Auth-Key' : cloudflare.auth_key,
-      'Content-Type' : 'application/json'
-    },
-    json : true
-  },
-          on_response);
+  auth_key : process.env.CF_AUTH_KEY,
 };
 
 inhex = hexo.init();
 
 function exec_hexo(fn, args, cb) {
-  inhex.then(function() { return hexo.call(fn, args); })
-      .then(function() { return hexo.exit(); })
-      .then(function() { return cb() })
-      .catch(function(err) {
+  inhex.then(() => hexo.call(fn, args))
+      .then(() => hexo.exit())
+      .then(() => cb())
+      .catch((err) => {
         console.log(err);
         hexo.exit(err);
         return cb(err);
-      })
-}
+      });
+};
 
-gulp.task('hexo-server',
-          function(cb) { exec_hexo('server', {port : 8080}, cb); });
+function cloudflare_api(url, method, body, cb) {
+  return request({
+           url : url,
+           method : method,
+           headers : {
+             'X-AUTH-EMAIL' : cloudflare.email,
+             'X-AUTH-KEY' : cloudflare.auth_key,
+             'Content-Type' : 'application/json'
+           },
+           body : body,
+           json : true
+         })
+      .pipe(source('resp'))
+      .pipe(streamify(jeditor((resp) => {
+        if (!resp.success) {
+          throw new Error(JSON.stringify(resp.errors));
+        };
+        return cb(resp);
+      })));
+};
 
-gulp.task('hexo-deploy', function(cb) { exec_hexo('deploy', {}, cb); });
+function purge_cloudflare_cache(zone_id) {
+  var url =
+      'https://api.cloudflare.com/client/v4/zones/' + zone_id + '/purge_cache';
 
-gulp.task('purge-cloudflare-cache', function(cb) {
-  var on_response = function(err, response, body) {
-    if (err) {
-      throw err;
-    }
-
-    if (!body.success) {
-      throw new Error(JSON.stringify(body));
-    }
-    console.log("cloudflare cached purged successully");
-
-    cb();
-  };
-
-  get_cloudflare_zone_id(function(zone_id) {
-    request({
-      url : 'https://api.cloudflare.com/client/v4/zones/' + zone_id +
-                '/purge_cache',
-      method : 'DELETE',
-      headers : {
-        'X-AUTH-EMAIL' : cloudflare.email,
-        'X-Auth-Key' : cloudflare.auth_key,
-        'Content-Type' : 'application/json'
-      },
-      body : {purge_everything : true},
-      json : true
-    },
-            on_response);
+  return cloudflare_api(url, 'DELETE', {purge_everything : true}, (r) => {
+    console.log("cloudflare cache purged successully");
+    return r;
   });
-});
+};
 
-gulp.task('hexo-clean', function(cb) { exec_hexo('clean', {}, cb); })
+function get_cloudflare_zoneid(cb) {
+
+  var url = 'https://api.cloudflare.com/client/v4/zones?name=oded.blog';
+
+  return cloudflare_api(url, 'GET', {}, (r) => cb(r.result[0].id));
+};
+
+gulp.task('hexo-server', (cb) => { exec_hexo('server', {port : 8080}, cb); });
+
+gulp.task('hexo-deploy', (cb) => { exec_hexo('deploy', {}, cb); });
+
+gulp.task('purge-cloudflare-cache',
+          (cb) => { return get_cloudflare_zoneid(purge_cloudflare_cache); });
+
+gulp.task('hexo-clean', (cb) => { exec_hexo('clean', {}, cb); })
 
 gulp.task('hexo-generate',
-          function(cb) { exec_hexo('generate', {watch : false}, cb); })
+          (cb) => { exec_hexo('generate', {watch : false}, cb); })
 
-gulp.task('js-compress', function(cb) {
+gulp.task('js-compress', (cb) => {
   pump([ gulp.src('./public/**/*.js'), uglify(), gulp.dest('./public') ], cb);
 });
 
-gulp.task('css-compress', function(cb) {
+gulp.task('css-compress', (cb) => {
   pump(
       [
         gulp.src('./public/**/*.css'),
         minifyCss(
             {debug : true, level : 1, rebase : false},
-            function(details) {
+            (details) => {
               console.log(details.name + ': ' + details.stats.originalSize);
               console.log(details.name + ': ' + details.stats.minifiedSize);
             }),
@@ -122,7 +105,7 @@ gulp.task('css-compress', function(cb) {
       cb);
 });
 
-gulp.task('html-compress', function(cb) {
+gulp.task('html-compress', (cb) => {
   pump(
       [
         gulp.src('./public/**/*.html'), htmlclean(), htmlmin({
@@ -139,7 +122,7 @@ gulp.task('html-compress', function(cb) {
       cb);
 });
 
-gulp.task('image-compress', function(cb) {
+gulp.task('image-compress', (cb) => {
   pump(
       [
         gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png)'), imagemin([
@@ -153,7 +136,7 @@ gulp.task('image-compress', function(cb) {
       cb);
 });
 
-gulp.task('concat-js', function(cb) {
+gulp.task('concat-js', (cb) => {
   pump(
       [
         gulp.src('./public/js/bootstrap.js'),
@@ -163,19 +146,17 @@ gulp.task('concat-js', function(cb) {
       cb);
 });
 
-gulp.task('compress', function(cb) {
+gulp.task('compress', (cb) => {
   runSequence(
       'concat-js',
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 
-gulp.task('build',
-          function(cb) { runSequence('hexo-clean', 'hexo-generate', cb) });
+gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate', cb)});
 
-gulp.task('server', function(cb) { runSequence('build', 'hexo-server', cb) });
+gulp.task('server', (cb) => {runSequence('build', 'hexo-server', cb)});
 
-gulp.task('deploy', function(cb) {
-  runSequence('build', 'compress', 'hexo-deploy', 'purge-cloudflare-cache', cb)
-});
+gulp.task('deploy', (cb) => {runSequence('build', 'compress', 'hexo-deploy',
+                                         'purge-cloudflare-cache', cb)});
 
 gulp.task('default', [])
