@@ -137,12 +137,12 @@ gulp.task('image-compress', (cb) => {
         gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png|svg)'), imagemin([
           imagemin.gifsicle({interlaced : true}),
           imagemin.svgo({plugins : [ {removeViewBox : true} ]}),
-          pngquant({speed : 1, quality : 85, verbose : true}), jpegrecompress({
-            accuracy : true,
-            quality : "high",
+          pngquant({speed : 1, quality : 80, verbose : true}), jpegrecompress({
+            method : 'ssim',
+            accurate : true,
             progressive : true,
             strip : true,
-            target : 0.85,
+            target : 0.80,
             loops : 5
           })
         ]),
