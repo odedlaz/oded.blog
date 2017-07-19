@@ -6,7 +6,7 @@ updated: '2017-06-05 11:08:01'
 permalink: python-else-keyword
 categories:
   - programming
-date: 2017-06-01 17:00:00
+date: 2017-06-02 17:00:00
 ---
 I've been asked by a few people recently to explain the different uses for the `else` keyword in python. 
 python, for a reasons I do not understand, decided to overload the `else` keyword in ways most people never think of.

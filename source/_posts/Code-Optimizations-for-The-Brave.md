@@ -140,7 +140,7 @@ This might have looked like a small optimization, but in such a tight loop, an a
 
 Can we go any further? Well, the `for` loop de-references the `dest` pointer on each iteration. That means we need to access the memory on every iteration!
 
-Why? because the compiler can't optimize that piece of code as a result of [memory aliasing](https://en.wikipedia.org/wiki/Aliasing_(computing)), which basically means it has no idea if anyone else is touching this pointer too, so it just leaves it alone.
+Why? because the compiler can't optimize that piece of code as a result of [memory aliasing](https://en.wikipedia.org/wiki/Aliasing_(computing%29), which basically means it has no idea if anyone else is touching this pointer too, so it just leaves it alone.
 
 
 ## Version 4.0
@@ -237,7 +237,7 @@ That doesn't mean optimizations are easy, but don't be afraid to profile your co
 
 Anyhow, if you found this post interesting, consider [following Oren Eini](https://ayende.com/blog), the creator of RavenDB. He's a wizard when it comes to optimizations. 
 
-Oh, and don't forget my motto's: 
+Oh, and don't forget my motto's:
 
 1. Don't optimize your code in advance. Most of the time, optimizations hurt readability. That doesn't mean your'e granted to write stupid code ;)
 2. **NEVER** Shoot in the dark. **ALWAYS** use a profiler to find slow code paths.

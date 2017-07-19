@@ -3,12 +3,12 @@ tags:
   - optimization
   - python
 id: 58
-updated: '2017-05-19 20:59:53'
+updated: 2017-05-19 20:59:53
 permalink: vs-dict
 categories:
   - programming
   - ''
-date: 2016-11-30 23:21:00
+date: 2016-12-01 23:21:00
 ---
 
 

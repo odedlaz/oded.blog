@@ -7,7 +7,7 @@ permalink: docker-log-incident
 categories:
   - devops
   - ''
-date: 2017-06-12 06:46:00
+date: 2017-06-13 06:46:00
 ---
 A few days ago one of our ([Gartner Innovation Center](https://gici.co.il)) productions servers died as a result of a log file that wasn't properly rotated. This might sound like an easy problem to figure out and fix, but the situation was a bit more complex!
 

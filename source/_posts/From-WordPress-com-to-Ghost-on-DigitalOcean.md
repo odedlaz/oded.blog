@@ -8,7 +8,7 @@ permalink: from-wordpress-com-to-ghost
 categories:
   - announcement
   - blog
-date: 2017-02-09 23:59:00
+date: 2017-02-10 23:59:00
 ---
 After ~3 years of managed hosting at [WordPress.com](https://wordpress.com) I decided to self host my blog.
 
@@ -134,6 +134,6 @@ Ghost doesn't have a plugin infrastructure to trigger updates to social profiles
 
 There are many solutions online, but most of them required hard-coding support to ghost core or my theme.
 
-I went on a different approach: leverage [IFTTT](ifttt.com). It's extremely easy to write a new applet, and there are hundreds (if not thousands) of pre-baked recipes you can use.
+I went on a different approach: leverage [IFTTT](https://ifttt.com). It's extremely easy to write a new applet, and there are hundreds (if not thousands) of pre-baked recipes you can use.
 
 I ended up writing my own applet: **If** new feed item from [my blog](https://oded.ninja), **Then** post a tweet [on my behalf](https://twitter.com/odedlaz).

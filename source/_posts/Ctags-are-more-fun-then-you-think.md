@@ -9,7 +9,7 @@ permalink: ctags-are-fun
 categories:
   - devops
   - ''
-date: 2017-05-07 10:12:00
+date: 2017-05-08 10:12:00
 ---
 
 This post is dedicated to people who are already familiar with Ctags, and aims to show you how I use them. If you've never heard of Ctags before, and you use a code editor (not an IDE) I HIGHLY encourage you to [read about it](https://en.wikipedia.org/wiki/Ctags), then install [Universal Ctags](https://ctags.io/).

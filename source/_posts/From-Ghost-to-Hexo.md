@@ -26,7 +26,7 @@ Instead, I'm moving my blog to [Hexo](https://hexo.io/), hosted by [GitHub Pages
 ### Why Ghost?
 
 I didn't like WordPress and found Ghost a good alternative.  
-A full explanation can be found at - [From WordPress.com to Ghost on DigitalOcean](/2017/02/09/from-wordpress-com-to-ghost).
+A full explanation can be found at - [From WordPress.com to Ghost on DigitalOcean](/2017/02/10/from-wordpress-com-to-ghost).
 
 
 
@@ -107,7 +107,7 @@ Unfortunately, there are no "official" tools to migrate from Ghost. Fortunately,
 The process was much easier than last time, but I still had to do some work:
 
 1. Fix Bugs: tags weren't properly migrated & some posts wouldn't pass migration, so I had to fix those in the migrator.
-2. Custom Migration: I used [prism.js](prismjs.com) to highlight code blocks in Ghost. Hexo uses [highlight.js](highlightjs.org) instead. I had to take care of syntax changes.
+2. Custom Migration: I used [prism.js](http://prismjs.com) to highlight code blocks in Ghost. Hexo uses [highlight.js](https://highlightjs.org) instead. I had to take care of syntax changes.
 3. Manual Work: fixing tags, adding categories, etc'
 
 Once I was done, and everything worked locally, I deployed the blog, then followed Cloudflare's [Secure and fast GitHub Pages with CloudFlare](https://blog.cloudflare.com/secure-and-fast-github-pages-with-cloudflare/).

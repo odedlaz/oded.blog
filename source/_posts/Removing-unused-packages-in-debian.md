@@ -22,6 +22,6 @@ But why work so hard when you've got an open source project who does all that?
 
 #### Installation
 
-1. [clone UnusedPkgs repository](http://https ://github.com/epinna/Unusedpkg)
+1. [clone UnusedPkgs repository](https://github.com/epinna/Unusedpkg)
 2. run `./unusedpkg`
 3. get a nice diagnosis on all installed packages

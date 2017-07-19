@@ -7,7 +7,7 @@ updated: '2017-06-05 11:12:03'
 permalink: printf
 categories:
   - programming
-date: 2017-05-23 08:48:00
+date: 2017-05-24 08:48:00
 ---
 `printf` is magical. Did you ever stop and ask yourself how it works?
 

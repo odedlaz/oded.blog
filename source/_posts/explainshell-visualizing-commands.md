@@ -3,12 +3,12 @@ tags:
   - linux
   - productivity
 id: 78
-updated: '2017-03-13 22:16:18'
+updated: 2017-03-13 22:16:18
 permalink: explainshell
 categories:
   - devops
   - ''
-date: 2014-08-24 12:53:00
+date: 2017-03-14 12:53:00
 ---
 
 I find myself, every now and then, staring at a really long command, trying to figure it out. Here's a good example:

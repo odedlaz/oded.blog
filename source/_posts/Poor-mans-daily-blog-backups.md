@@ -7,7 +7,7 @@ updated: '2017-05-23 11:47:48'
 permalink: poor-mans-daily-blog-backups
 categories:
   - devops
-date: 2017-03-03 19:40:00
+date: 2017-03-04 19:40:00
 ---
 A few weeks ago [I outlined the steps I took](/2017/02/10/from-wordpress-com-to-ghost/) to migrate from WordPress.com to a self hosted ghost-powered blog on DigitalOcean.
 
