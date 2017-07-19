@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var Hexo = require('hexo');
+var inlinesource = require('gulp-inline-source');
 var request = require('request');
 var jeditor = require('gulp-json-editor');
 var source = require('vinyl-source-stream');
@@ -168,21 +169,27 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
+gulp.task('inlinesource', function() {
+  return gulp.src('./public/**/*.html')
+      .pipe(inlinesource({compress : true, rootpath : 'public'}))
+      .pipe(gulp.dest('./public'));
+});
+
 gulp.task('compress', (cb) => {
   runSequence(
-      'concat-js',
+      [ 'concat-js', 'inlinesource' ],
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 
-gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
-                                        'google-verification', cb)});
+gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate', cb)});
 
 gulp.task('server', (cb) => {runSequence('build', 'hexo-server', cb)});
 
 gulp.task(
     'post-deploy',
     (cb) => {runSequence([ 'purge-cloudflare-cache', 'ifttt-webhook' ], cb)});
-gulp.task('deploy', (cb) => {runSequence('build', 'compress', 'hexo-deploy',
-                                         'post-deploy', cb)});
+gulp.task('deploy',
+          (cb) => {runSequence('build', 'compress', 'google-verification',
+                               'hexo-deploy', 'post-deploy', cb)});
 
 gulp.task('default', [])
