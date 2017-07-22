@@ -2,9 +2,6 @@ var gulp = require('gulp');
 var Hexo = require('hexo');
 var inlinesource = require('gulp-inline-source');
 var request = require('request');
-var jeditor = require('gulp-json-editor');
-var source = require('vinyl-source-stream');
-var streamify = require('gulp-streamify');
 var pump = require('pump');
 var runSequence = require('run-sequence');
 var del = require('del');
@@ -20,13 +17,13 @@ var pngquant = require('imagemin-pngquant');
 var replace = require('gulp-replace');
 var jpegrecompress = require('imagemin-jpeg-recompress');
 var yaml = require('yamljs');
+var URL = require('url-parse');
+var download = require('gulp-download');
+var autoprefixer = require('gulp-autoprefixer');
 
 var hexo = new Hexo(process.cwd(), {});
 
-var cloudflare = {
-  email : process.env.CF_EMAIL,
-  auth_key : process.env.CF_AUTH_KEY,
-};
+var cloudflare = require('gulp-cloudflare');
 
 inhex = hexo.init();
 
@@ -41,42 +38,6 @@ function exec_hexo(fn, args, cb) {
       });
 };
 
-function cloudflare_api(url, method, body, cb) {
-  return request({
-           url : url,
-           method : method,
-           headers : {
-             'X-AUTH-EMAIL' : cloudflare.email,
-             'X-AUTH-KEY' : cloudflare.auth_key,
-             'Content-Type' : 'application/json'
-           },
-           body : body,
-           json : true
-         })
-      .pipe(source('resp'))
-      .pipe(streamify(jeditor((resp) => {
-        if (!resp.success) {
-          throw new Error(JSON.stringify(resp.errors));
-        };
-        return cb(resp);
-      })));
-};
-
-function purge_cf_cache(zone_id) {
-  var url =
-      'https://api.cloudflare.com/client/v4/zones/' + zone_id + '/purge_cache';
-
-  return cloudflare_api(url, 'DELETE', {purge_everything : true}, (r) => {
-    console.log("cloudflare cache purged successully");
-    return r;
-  });
-};
-
-function get_cf_zone_id(cb) {
-  var url = 'https://api.cloudflare.com/client/v4/zones?name=oded.blog';
-  return cloudflare_api(url, 'GET', {}, (r) => cb(r.result[0].id));
-};
-
 gulp.task('ifttt-webhook', (cb) => {
   var url = "https://maker.ifttt.com/trigger/blog-deployed/with/key/";
   return request({url : url + process.env.IFTTT_KEY, method : 'POST'},
@@ -85,8 +46,16 @@ gulp.task('ifttt-webhook', (cb) => {
 
 gulp.task('hexo-deploy', (cb) => { exec_hexo('deploy', {}, cb); });
 
-gulp.task('purge-cloudflare-cache',
-          (cb) => { return get_cf_zone_id(purge_cloudflare_cache); });
+gulp.task('purge-cf-cache', (cb) => {
+  var url = new URL(yaml.load('_config.yml').url);
+  cloudflare({
+    email : process.env.CF_EMAIL,
+    token : process.env.CF_AUTH_KEY,
+    domain : url.hostname,
+    action : 'fpurge_ts',
+    skip : false
+  });
+});
 
 gulp.task('hexo-clean', (cb) => { exec_hexo('clean', {}, cb); })
 
@@ -100,7 +69,7 @@ gulp.task('js-compress', (cb) => {
 gulp.task('css-compress', (cb) => {
   pump(
       [
-        gulp.src('./public/**/*.css'),
+        gulp.src('./public/**/*.css'), autoprefixer(),
         minifyCss({debug : true, level : 1, rebase : false},
                   (details) => {
                     console.log(details.name + ': ' +
@@ -134,13 +103,13 @@ gulp.task('image-compress', (cb) => {
       [
         gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png|svg)'), imagemin([
           imagemin.gifsicle({interlaced : true}),
-          imagemin.svgo({plugins : [ {removeViewBox : true} ]}),
+          imagemin.svgo({plugins : [ {removeViewBox : false} ]}),
           pngquant({speed : 1, quality : 80, verbose : true}), jpegrecompress({
             method : 'ssim',
             accurate : true,
             progressive : true,
             strip : true,
-            target : 0.80,
+            quality : 'medium',
             loops : 5
           })
         ]),
@@ -161,7 +130,7 @@ gulp.task('concat-js', (cb) => {
 
 gulp.task('fix-css-font-path', () => {
   var url = yaml.load('_config.yml').url;
-  return gulp.src('./public/css/style.css')
+  return gulp.src('./public/css/fonts.css')
       .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
       .pipe(gulp.dest('./public/css'));
 });
@@ -179,13 +148,18 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
+gulp.task('fetch-newest-analytics', function() {
+  return download('https://www.google-analytics.com/analytics.js')
+      .pipe(gulp.dest('./public/js'));
+});
+
 gulp.task('compress', (cb) => {
   runSequence([ 'concat-js', 'fix-css-font-path' ],
               [ 'js-compress', 'css-compress' ], 'inline-css',
               [ 'html-compress', 'image-compress' ], cb);
 });
-
-gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate', cb)});
+gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
+                                        [ 'fetch-newest-analytics' ], cb)});
 
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
