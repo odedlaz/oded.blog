@@ -17,8 +17,9 @@ var htmlclean = require('gulp-htmlclean');
 var minifyCss = require('gulp-clean-css');
 var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
-
+var replace = require('gulp-replace');
 var jpegrecompress = require('imagemin-jpeg-recompress');
+var yaml = require('yamljs');
 
 var hexo = new Hexo(process.cwd(), {});
 
@@ -169,15 +170,25 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
-gulp.task('inlinesource', function() {
+gulp.task('fix-css-font-path', function() {
+  var url = yaml.load('_config.yml').url;
+  return gulp.src('./public/css/style.css')
+      .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
+      .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('inline-css', function() {
   return gulp.src('./public/**/*.html')
       .pipe(inlinesource({compress : true, rootpath : 'public'}))
       .pipe(gulp.dest('./public'));
 });
 
+gulp.task('concat-css',
+          function(cb) { runSequence('fix-css-font-path', 'inline-css', cb); });
+
 gulp.task('compress', (cb) => {
   runSequence(
-      [ 'concat-js', 'inlinesource' ],
+      [ 'concat-js', 'concat-css' ],
       [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
 });
 
