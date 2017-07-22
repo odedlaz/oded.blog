@@ -19,7 +19,7 @@ We all forget to *sudo* when we need to:
 But how many of you have `fuck` at your disposal?
 
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Favourite thing in my .bashrc remains: <br>alias fuck=&#39;sudo $(history -p \!\!)&#39; <a href="http://t.co/gCRF9RLvHL">pic.twitter.com/gCRF9RLvHL</a></p>&mdash; Liam O (@liamosaur) <a href="https://twitter.com/liamosaur/status/506975850596536320">September 3, 2014</a></blockquote>
-<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 ## How
 
