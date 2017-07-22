@@ -62,7 +62,7 @@ function cloudflare_api(url, method, body, cb) {
       })));
 };
 
-function purge_cloudflare_cache(zone_id) {
+function purge_cf_cache(zone_id) {
   var url =
       'https://api.cloudflare.com/client/v4/zones/' + zone_id + '/purge_cache';
 
@@ -72,10 +72,8 @@ function purge_cloudflare_cache(zone_id) {
   });
 };
 
-function get_cloudflare_zoneid(cb) {
-
+function get_cf_zone_id(cb) {
   var url = 'https://api.cloudflare.com/client/v4/zones?name=oded.blog';
-
   return cloudflare_api(url, 'GET', {}, (r) => cb(r.result[0].id));
 };
 
@@ -85,12 +83,10 @@ gulp.task('ifttt-webhook', (cb) => {
                  (err, resp, body) => { console.log(body); });
 });
 
-gulp.task('hexo-server', (cb) => { exec_hexo('server', {port : 8080}, cb); });
-
 gulp.task('hexo-deploy', (cb) => { exec_hexo('deploy', {}, cb); });
 
 gulp.task('purge-cloudflare-cache',
-          (cb) => { return get_cloudflare_zoneid(purge_cloudflare_cache); });
+          (cb) => { return get_cf_zone_id(purge_cloudflare_cache); });
 
 gulp.task('hexo-clean', (cb) => { exec_hexo('clean', {}, cb); })
 
@@ -105,12 +101,12 @@ gulp.task('css-compress', (cb) => {
   pump(
       [
         gulp.src('./public/**/*.css'),
-        minifyCss(
-            {debug : true, level : 1, rebase : false},
-            (details) => {
-              console.log(details.name + ': ' + details.stats.originalSize);
-              console.log(details.name + ': ' + details.stats.minifiedSize);
-            }),
+        minifyCss({debug : true, level : 1, rebase : false},
+                  (details) => {
+                    console.log(details.name + ': ' +
+                                details.stats.originalSize + ' => ' +
+                                details.stats.minifiedSize);
+                  }),
         gulp.dest('./public')
       ],
       cb);
@@ -163,6 +159,19 @@ gulp.task('concat-js', (cb) => {
       cb);
 });
 
+gulp.task('fix-css-font-path', () => {
+  var url = yaml.load('_config.yml').url;
+  return gulp.src('./public/css/style.css')
+      .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
+      .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('inline-css', () => {
+  return gulp.src('./public/**/*.html')
+      .pipe(inlinesource({compress : true, rootpath : 'public'}))
+      .pipe(gulp.dest('./public'));
+});
+
 gulp.task('google-verification', (cb) => {
   return gulp.src("./public/google010b2effcd572c56")
       .pipe(vinylPaths(del))
@@ -170,37 +179,18 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
-gulp.task('fix-css-font-path', function() {
-  var url = yaml.load('_config.yml').url;
-  return gulp.src('./public/css/style.css')
-      .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
-      .pipe(gulp.dest('./public/css'));
-});
-
-gulp.task('inline-css', function() {
-  return gulp.src('./public/**/*.html')
-      .pipe(inlinesource({compress : true, rootpath : 'public'}))
-      .pipe(gulp.dest('./public'));
-});
-
-gulp.task('concat-css',
-          function(cb) { runSequence('fix-css-font-path', 'inline-css', cb); });
-
 gulp.task('compress', (cb) => {
-  runSequence(
-      [ 'concat-js', 'concat-css' ],
-      [ 'html-compress', 'js-compress', 'image-compress', 'css-compress' ], cb);
+  runSequence([ 'concat-js', 'fix-css-font-path' ],
+              [ 'js-compress', 'css-compress' ], 'inline-css',
+              [ 'html-compress', 'image-compress' ], cb);
 });
 
 gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate', cb)});
 
-gulp.task('server', (cb) => {runSequence('build', 'hexo-server', cb)});
+gulp.task('post-deploy',
+          (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
 
-gulp.task(
-    'post-deploy',
-    (cb) => {runSequence([ 'purge-cloudflare-cache', 'ifttt-webhook' ], cb)});
-gulp.task('deploy',
-          (cb) => {runSequence('build', 'compress', 'google-verification',
-                               'hexo-deploy', 'post-deploy', cb)});
+gulp.task('default', (cb) => {runSequence('build', 'compress', cb)});
 
-gulp.task('default', [])
+gulp.task('deploy', (cb) => {runSequence('default', 'google-verification',
+                                         'hexo-deploy', 'post-deploy', cb)});
