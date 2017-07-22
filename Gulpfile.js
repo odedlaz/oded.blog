@@ -16,6 +16,7 @@ var imagemin = require('gulp-imagemin');
 var pngquant = require('imagemin-pngquant');
 var replace = require('gulp-replace');
 var jpegrecompress = require('imagemin-jpeg-recompress');
+var jpegtran = require('imagemin-jpegtran');
 var yaml = require('yamljs');
 var URL = require('url-parse');
 var download = require('gulp-download');
@@ -103,14 +104,15 @@ gulp.task('image-compress', (cb) => {
       [
         gulp.src('./public/images/**/*.+(jpg|jpeg|gif|png|svg)'), imagemin([
           imagemin.gifsicle({interlaced : true}),
-          imagemin.svgo({plugins : [ {removeViewBox : false} ]}),
-          pngquant({speed : 1, quality : 80, verbose : true}), jpegrecompress({
+          imagemin.svgo({plugins : [ {removeViewBox : true} ]}),
+          pngquant({speed : 1, quality : 80, verbose : true}),
+          jpegtran({progressive : true}), jpegrecompress({
             method : 'ssim',
             accurate : true,
             progressive : true,
             strip : true,
-            quality : 'medium',
-            loops : 5
+            target : 0.80,
+            loops : 6
           })
         ]),
         gulp.dest('./public/images')
