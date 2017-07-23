@@ -12,7 +12,7 @@ customize:
         url:
     profile:
         enabled: true # Whether to show profile bar
-        avatar: /images/logo_small.jpg
+        avatar: /images/logo.jpg
         gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
         author: Oded Lazar
         author_title: I code during the day, and think about the bugs I created at night.
