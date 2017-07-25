@@ -52,7 +52,7 @@ comment:
 
 # Plugins
 plugins:
-    google_analytics: UA-91802969-1 # enter the tracking ID for your Google Analytics
+    google_analytics: # UA-91802969-1 # enter the tracking ID for your Google Analytics
     google_site_verification: # enter Google site verification code
     mathjax: false # options: true, false
     katex: true # options: true, false

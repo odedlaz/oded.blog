@@ -120,23 +120,6 @@ gulp.task('image-compress', (cb) => {
       cb);
 });
 
-gulp.task('concat-js', (cb) => {
-  pump(
-      [
-        gulp.src('./public/js/bootstrap.js'),
-        browserify({insertGlobals : true, debug : true}), uglify(),
-        gulp.dest('./public/js')
-      ],
-      cb);
-});
-
-gulp.task('fix-css-font-path', () => {
-  var url = yaml.load('_config.yml').url;
-  return gulp.src('./public/css/fonts.css')
-      .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
-      .pipe(gulp.dest('./public/css'));
-});
-
 gulp.task('inline-css', () => {
   return gulp.src('./public/**/*.html')
       .pipe(inlinesource({compress : true, rootpath : 'public'}))
@@ -150,18 +133,30 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
-gulp.task('fetch-newest-analytics', function() {
-  return download('https://www.google-analytics.com/analytics.js')
-      .pipe(gulp.dest('./public/js'));
-});
-
 gulp.task('compress', (cb) => {
-  runSequence([ 'concat-js', 'fix-css-font-path' ],
-              [ 'js-compress', 'css-compress' ], 'inline-css',
+  runSequence([ 'js-compress', 'css-compress' ], 'inline-css',
               [ 'html-compress', 'image-compress' ], cb);
 });
-gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
-                                        [ 'fetch-newest-analytics' ], cb)});
+
+gulp.task('fix-css-font-path', () => {
+  var url = yaml.load('_config.yml').url;
+  return gulp.src('./public/css/fonts.css')
+      .pipe(replace(/\.\.\/fonts/g, url + '/fonts'))
+      .pipe(gulp.dest('./public/css'));
+});
+
+gulp.task('browserify', (cb) => {
+  pump(
+      [
+        gulp.src('./public/js/bootstrap.js'),
+        browserify({insertGlobals : true, debug : true}), uglify(),
+        gulp.dest('./public/js')
+      ],
+      cb);
+});
+gulp.task('build',
+          (cb) => {runSequence('hexo-clean', 'hexo-generate',
+                               [ 'browserify', 'fix-css-font-path' ], cb)});
 
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
