@@ -19,6 +19,10 @@ test:
     - echo "done"
 
 deployment:
+  draft:
+    branch: draft
+    commands:
+      - gulp build
   production:
     branch: master
     commands:
