@@ -42,7 +42,8 @@ search:
 
 # Comment
 comment:
-    disqus: thoughts-data-bugs
+    disqus: # thoughts-data-bugs
+    isso: isso.oded.blog
     facebook: # enter app id
     gitment:
         owner:

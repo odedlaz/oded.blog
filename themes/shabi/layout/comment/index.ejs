@@ -1,9 +1,11 @@
 <% if (post.comments) { %>
     <% if (theme.comment.disqus) { %>
-        <section id="comments"><%- partial('comment/disqus') %></section>
+       <section id="comments"><%- partial('comment/disqus') %></section>
+    <% } else if (theme.comment.isso) { %>
+       <section id="comments"><%- partial('comment/isso') %></section>
     <% } else if (theme.comment.facebook) { %>
-        <section id="comments"><%- partial('comment/facebook') %></section>
+       <section id="comments"><%- partial('comment/facebook') %></section>
 	<% } else if (theme.comment.gitment) { %>
-        <section id="comments"><%- partial('comment/gitment') %></section>
+       <section id="comments"><%- partial('comment/gitment') %></section>
     <% } %>
 <% } %>
