@@ -8,7 +8,7 @@ date: 2017-07-26 17:24:13
 
 A week ago I migrated my blog from [Ghost to Hexo](/2017/07/11/From-Ghost-to-Hexo/) to gain better performance and save money.
 
-Hexo is said to be "Blazing Fast", but while Idid "feel" that my [Hexo](https://hexo.io/) based site was snappier than its predecessor, it was far from "Blazing Fast".
+Hexo is said to be "Blazing Fast", but while I did "feel" that my [Hexo](https://hexo.io/) based site was snappier than its predecessor, it was far from "Blazing Fast".
 
 Performance is extremely important. There are a lot of articles on the subject, most of which point out that website performance & uptime are key to user satisfaction. WebpageFX wrote a nice summary of the subject - [Why Website Speed is Important](https://www.webpagefx.com/blog/web-design/why-website-speed-is-important/).
 
@@ -172,12 +172,32 @@ I also turned on [Rocket Loader](https://blog.cloudflare.com/56590463/). Rocket 
 
 Most of my posts take around 500k. 200k for content, and 300k to load Disqus (!).  
 
-I decided to remove Disqus and replace it with
-[Isso](https://posativ.org/isso/), a commenting server similar to Disqus which is self hosted and weighs around 12kb.
+I decided to remove Disqus and replace it with [Gitment](https://github.com/imsun/gitment), a comment system based on GitHub Issues, which can be used in the frontend without any server-side implementation.
 
-At first I didn't like the idea of self-hosting comments because that meant I had to pay DigitalOcean again. **BUT**, this time I'm paying so I can have full control over my content.
+Gitment takes around 90kb after compression, which is 60% less then Disqus!
+Moreover, it's completely based on GitHub issues which is pretty cool IMO.
 
-Having control of my entire content - posts and comments - is worth 5$ a month.
+Oh, right. It's not perfect either -
+
+### gh-oauth-server
+
+Every login request to gitment is proxied through `gh-oauth.imsun.net`.  
+*gh-auth* is needed because GitHub does't attach a [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) header to the logging requests.
+
+The service doesn't record or store anything (I checked) but I still didn't like
+it. Instead, I set up [my own](https://github.com/odedlaz/gh-oauth-server) gh-auth instance on DigitalOcean.
+
+
+### Public client secret
+
+Gitment uses OAuth authentication from the client side to pull comments.  
+It needs the client secret to do so, which is considered a bad practice.
+
+Although GitHub makes sure the client id and secret are only used for the
+configured callback, I still didn't like that.
+
+Instead, I used my "dummy" GitHub account to generate the token. At least if it
+gets compromised somehow, that won't affect my real account.
 
 ## Fixes
 
