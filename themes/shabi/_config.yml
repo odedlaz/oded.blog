@@ -43,13 +43,13 @@ search:
 # Comment
 comment:
     disqus: # thoughts-data-bugs
-    isso: isso.oded.blog
+    isso: # isso.oded.blog
     facebook: # enter app id
     gitment:
-        owner:
-        repo:
-        client_id:
-        client_secret:
+        owner: odedlaz
+        repo: oded.blog.comments
+        client_id: 7dfe94bef01a7dbc2fad
+        client_secret: 34645c3e5ff15043bb806f0352d939f6ed6705b6
 
 # Plugins
 plugins:

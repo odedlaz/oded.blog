@@ -154,9 +154,17 @@ gulp.task('browserify', (cb) => {
       ],
       cb);
 });
-gulp.task('build',
-          (cb) => {runSequence('hexo-clean', 'hexo-generate',
-                               [ 'browserify', 'fix-css-font-path' ], cb)});
+
+gulp.task('fetch-newest-gitment', function() {
+  return download('https://imsun.github.io/gitment/dist/gitment.browser.js')
+      .pipe(replace(/gh-oauth\.imsun\.net/g, 'gh-auth.oded.blog'))
+      .pipe(gulp.dest('./public/js'))
+});
+gulp.task(
+    'build',
+    (cb) => {runSequence(
+        'hexo-clean', 'hexo-generate',
+        [ 'browserify', 'fix-css-font-path', 'fetch-newest-gitment' ], cb)});
 
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
