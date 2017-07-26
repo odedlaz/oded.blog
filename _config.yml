@@ -67,6 +67,9 @@ pagination_dir: page
 ## Themes: https://hexo.io/themes/
 theme: shabi
 
+# gfm
+markdown: 'default'
+
 deploy:
   - type: git
     repo: git@github.com:odedlaz/odedlaz.github.io.git
