@@ -8,7 +8,7 @@ date: 2017-07-26 17:24:13
 
 A week ago I migrated my blog from [Ghost to Hexo](/2017/07/11/From-Ghost-to-Hexo/) to gain better performance and save money.
 
-Hexo is said to be "Blazing Fast", but why I did "feel" that my [Hexo](https://hexo.io/) based site was snappier than its predecessor, it was far from "Blazing Fast".
+Hexo is said to be "Blazing Fast", but while Idid "feel" that my [Hexo](https://hexo.io/) based site was snappier than its predecessor, it was far from "Blazing Fast".
 
 Performance is extremely important. There are a lot of articles on the subject, most of which point out that website performance & uptime are key to user satisfaction. WebpageFX wrote a nice summary of the subject - [Why Website Speed is Important](https://www.webpagefx.com/blog/web-design/why-website-speed-is-important/).
 
@@ -168,6 +168,17 @@ Anyhow, I configured Cloudflare to [cache my entire website](https://support.clo
 
 I also turned on [Rocket Loader](https://blog.cloudflare.com/56590463/). Rocket Loader is a general-purpose asynchronous JavaScript loader coupled with a lightweight virtual browser that almost always improves a web page's window.onload time.
 
+### Remove Disqus
+
+Most of my posts take around 500k. 200k for content, and 300k to load Disqus (!).  
+
+I decided to remove Disqus and replace it with
+[Isso](https://posativ.org/isso/), a commenting server similar to Disqus which is self hosted and weighs around 12kb.
+
+At first I didn't like the idea of self-hosting comments because that meant I had to pay DigitalOcean again. **BUT**, this time I'm paying so I can have full control over my content.
+
+Having control of my entire content - posts and comments - is worth 5$ a month.
+
 ## Fixes
 
 During my experiments I also found out that I broke some parts of my website when migrating from Ghost.
@@ -232,4 +243,3 @@ Now every time I push something to the blog's github repository ([oded.blog](htt
 
 - I tried to run [uncss](https://github.com/giakki/uncss) to remove unused css, but it broke most of the website.
 - I might replace the client-side "search engine" to [Algolia](https://www.algolia.com/) at some point.
-- Most of my posts take around 500k. 200k for content, and 300k to load disqus (!!!). I'm thinking of replacing it. No idea to what yet.
