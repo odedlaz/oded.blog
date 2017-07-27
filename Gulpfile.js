@@ -133,9 +133,13 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
+gulp.task('text-compress', (cb) => {
+  runSequence([ 'js-compress', 'css-compress' ], 'inline-css', 'html-compress',
+              cb);
+});
+
 gulp.task('compress', (cb) => {
-  runSequence([ 'js-compress', 'css-compress' ], 'inline-css',
-              [ 'html-compress', 'image-compress' ], cb);
+  runSequence([ 'text-compress', 'image-compress' ], cb);
 });
 
 gulp.task('fix-css-font-path', () => {
