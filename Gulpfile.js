@@ -189,5 +189,6 @@ gulp.task('post-deploy',
 
 gulp.task('default', (cb) => {runSequence('build', 'text-compress', cb)});
 
-gulp.task('deploy', (cb) => {runSequence('default', 'google-verification',
-                                         'hexo-deploy', 'post-deploy', cb)});
+gulp.task('deploy',
+          (cb) => {runSequence('build', 'compress', 'google-verification',
+                               'hexo-deploy', 'post-deploy', cb)});
