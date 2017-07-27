@@ -159,30 +159,26 @@ gulp.task('browserify', (cb) => {
       cb);
 });
 
+gulp.task('fix-katex-css-font-path', () => {
+  var url = yaml.load('_config.yml').url;
+  return gulp.src('./public/css/katex.min.css')
+      .pipe(replace(/url\("fonts/g, 'url("' + url + '/fonts/katex'))
+      .pipe(gulp.dest('./public/css'));
+});
+
 gulp.task('fetch-newest-gitment', function() {
   return download('https://imsun.github.io/gitment/dist/gitment.browser.js')
       .pipe(replace(/gh-oauth\.imsun\.net/g, 'gh-auth.oded.blog'))
       .pipe(gulp.dest('./public/js'))
 });
 
-gulp.task('fetch-newest-katex', function() {
-  download('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css')
-      .pipe(replace(
-          /url\(fonts/g,
-          'url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/fonts'))
-      .pipe(gulp.dest('./public/css'))
-
-  download('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js')
-      .pipe(gulp.dest('./public/js'))
-});
-
-gulp.task('build',
-          (cb) => {runSequence('hexo-clean', 'hexo-generate',
-                               [
-                                 'browserify', 'fix-css-font-path',
-                                 'fetch-newest-katex', 'fetch-newest-gitment'
-                               ],
-                               cb)});
+gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
+                                        [
+                                          'browserify', 'fix-css-font-path',
+                                          'fix-katex-css-font-path',
+                                          'fetch-newest-gitment'
+                                        ],
+                                        cb)});
 
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
