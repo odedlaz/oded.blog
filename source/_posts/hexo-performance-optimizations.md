@@ -16,7 +16,7 @@ I'm not a web developer, and have almost zero knowledge in website optimizations
 
 All I need is to figure out the tooling to find the bottlenecks and fix them to gain **good enough** performance. That is, I'm not looking into optimizing every single piece of the website, only making it fast enough so it'll feel snappy.
 
-This blog post explains the steps I took in order to dramatically decrease the average page size to less then 500k.
+This blog post explains the steps I took in order to dramatically decrease the average page size to less then 350k.
 
 ![](/images/2017/07/xkcd-optimization.png)
 
