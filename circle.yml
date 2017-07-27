@@ -7,9 +7,11 @@ machine:
 dependencies:
   pre:
     - npm install -g yarn
+    - npm update -g yarn
     - yarn global add gulp
+    - yarn global upgrade --latest
   override:
-    - yarn
+    - yarn upgrade --latest
   cache_directories:
     - ~/.cache/yarn
     - /opt/circleci/nodejs/v6.1.0/lib
