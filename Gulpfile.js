@@ -164,11 +164,25 @@ gulp.task('fetch-newest-gitment', function() {
       .pipe(replace(/gh-oauth\.imsun\.net/g, 'gh-auth.oded.blog'))
       .pipe(gulp.dest('./public/js'))
 });
-gulp.task(
-    'build',
-    (cb) => {runSequence(
-        'hexo-clean', 'hexo-generate',
-        [ 'browserify', 'fix-css-font-path', 'fetch-newest-gitment' ], cb)});
+
+gulp.task('fetch-newest-katex', function() {
+  download('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css')
+      .pipe(replace(
+          /url\(fonts/g,
+          'url(https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/fonts'))
+      .pipe(gulp.dest('./public/css'))
+
+  download('https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.js')
+      .pipe(gulp.dest('./public/js'))
+});
+
+gulp.task('build',
+          (cb) => {runSequence('hexo-clean', 'hexo-generate',
+                               [
+                                 'browserify', 'fix-css-font-path',
+                                 'fetch-newest-katex', 'fetch-newest-gitment'
+                               ],
+                               cb)});
 
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
