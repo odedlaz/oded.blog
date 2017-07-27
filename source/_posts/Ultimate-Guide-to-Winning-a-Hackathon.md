@@ -2,11 +2,11 @@ title: Ultimate Guide to Winning a Hackathon
 tags:
   - hackathon
 id: 115
-updated: '2017-05-10 20:54:35'
+updated: 2017-05-10 20:54:35
 permalink: ultimate-guide-to-winning-a-hackathon
 categories:
   - thoughts
-date: 2017-05-09 12:11:00
+date: 2017-05-10 12:11:00
 ---
 
 I keep running into people that tell me they're unqualified to go to Hackathons, because their coding skills aren't good enough. This post is for everyone who wants to win a Hackathon, and specifically to people who avoid them. 
