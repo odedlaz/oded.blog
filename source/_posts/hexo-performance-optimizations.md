@@ -179,25 +179,26 @@ Moreover, it's completely based on GitHub issues which is pretty cool IMO.
 
 Oh, right. It's not perfect either -
 
+### Public client secret
+
+Gitment uses OAuth authentication from the client side to do its magic.  
+It needs the client secret to do so, which [according to GitHub](https://developer.github.com/v3/guides/basics-of-authentication/):
+> Your client ID and client secret keys come from your [application's configuration page](https://github.com/settings/developers).
+> You should **never, ever** store these values in GitHub--or any other public place, for that matter.
+> We recommend storing them as [environment variables](http://en.wikipedia.org/wiki/Environment_variable#Getting_and_setting_environment_variables).
+
+Although GitHub makes sure the client id and secret are only used for the configured callback, It's still not a good idea in my opinion.
+
 ### gh-oauth-server
 
 Every login request to gitment is proxied through `gh-oauth.imsun.net`.  
 *gh-auth* is needed because GitHub does't attach a [CORS](https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS) header to the logging requests.
 
-The service doesn't record or store anything (I checked) but I still didn't like
-it. Instead, I set up [my own](https://github.com/odedlaz/gh-oauth-server) gh-auth instance on DigitalOcean.
+The service doesn't record or store anything (I checked), but having a global service that's controlled by some guy is not my cup of tea.  
+
+I decided to set up [my own](https://github.com/odedlaz/gh-oauth-server) gh-auth instance on DigitalOcean, and add logic that injects the client keys, instead of sending them from the user. That basically solved the previous issue!
 
 
-### Public client secret
-
-Gitment uses OAuth authentication from the client side to pull comments.  
-It needs the client secret to do so, which is considered a bad practice.
-
-Although GitHub makes sure the client id and secret are only used for the
-configured callback, I still didn't like that.
-
-Instead, I used my "dummy" GitHub account to generate the token. At least if it
-gets compromised somehow, that won't affect my real account.
 
 ## Fixes
 
