@@ -9,8 +9,11 @@
 				client_id: '<%= theme.comment.gitment.client_id %>',
 				client_secret: '<%= theme.comment.gitment.client_secret %>',
 			},
-		})
-		gitment.render('commentContainer')
+      });
+
+      if ($("#commentContainer").length > 0) {
+         gitment.render('commentContainer');
+      }
 	</script>
 	<% } else { %>
 	<div id="commentContainer"></div>
