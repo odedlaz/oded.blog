@@ -6,9 +6,8 @@ machine:
 
 dependencies:
   pre:
-    - rm -rf ~/.yarn
-    - npm install -g yarn gulp
-
+    - npm install -g yarn
+    - yarn global add gulp
   override:
     - yarn
   cache_directories:
