@@ -261,5 +261,12 @@ Now every time I push something to the blog's github repository ([oded.blog](htt
 
 ## Further work
 
-- I tried to run [uncss](https://github.com/giakki/uncss) to remove unused css, but it broke most of the website.
-- I might replace the client-side "search engine" to [Algolia](https://www.algolia.com/) at some point.
+### Remove unused CSS
+
+I tried to run [uncss](https://github.com/giakki/uncss) to remove unused css, but it broke most of the website.  
+Nevertheless, I'm pretty sure there are a lot of unused css selectors that I can safetly remove.
+
+### Search
+
+Currently I'm using a custom search "engine" that works on the client side.  
+I might replace that with [Algolia](https://www.algolia.com/) at some point, but currently that's not an issue.
