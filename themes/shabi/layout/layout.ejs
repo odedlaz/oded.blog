@@ -2,12 +2,12 @@
 <html<%= config.language ? " lang=" + config.language.substring(0, 2) : ""%>>
 <head>
    <%- partial('common/head') %>
-   <link rel="stylesheet" href="/css/highlight.css"  />
-   <link rel="stylesheet" href="/css/style.css"  />
    <%- partial('plugin/styles') %>
    <%- partial('comment/styles') %>
    <%- partial('common/fonts') %>
-   <link rel="stylesheet" href="/css/fonts.css"  />
+
+   <link rel="stylesheet" href="/css/highlight.css" inline />
+   <link rel="stylesheet" href="/css/style.css" inline />
 </head>
 <body>
     <div id="container">

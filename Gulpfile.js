@@ -133,9 +133,13 @@ gulp.task('google-verification', (cb) => {
       .pipe(gulp.dest("./"));
 });
 
+gulp.task('text-compress', (cb) => {
+  runSequence([ 'js-compress', 'css-compress', 'html-compress' ], 'inline-css',
+              cb);
+});
+
 gulp.task('compress', (cb) => {
-  runSequence(
-      [ 'js-compress', 'css-compress', 'html-compress', 'image-compress' ], cb);
+  runSequence([ 'text-compress', 'image-compress' ], cb);
 });
 
 gulp.task('fix-css-font-path', () => {
@@ -183,7 +187,7 @@ gulp.task('build',
 gulp.task('post-deploy',
           (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
 
-gulp.task('default', (cb) => {runSequence('build', 'compress', cb)});
+gulp.task('default', (cb) => {runSequence('build', 'text-compress', cb)});
 
 gulp.task('deploy', (cb) => {runSequence('default', 'google-verification',
                                          'hexo-deploy', 'post-deploy', cb)});
