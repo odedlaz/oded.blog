@@ -1,6 +1,8 @@
 ---
 title: Making Hexo Blazing Fast
-tags: 'optimization,hexo'
+tags:
+   - optimization
+   - hexo
 categories:
   - devops
 date: 2017-07-26 17:24:13
