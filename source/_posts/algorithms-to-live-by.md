@@ -37,15 +37,14 @@ The book talks about the following subjects:
 - [Explore, Exploit](https://en.wikipedia.org/wiki/Multi-armed_bandit): The Latest vs The Greatest
 - [Sorting](https://en.wikipedia.org/wiki/Sorting_algorithm): Making Order
 - [Caching](https://en.wikipedia.org/wiki/Cache_%28computing%28): Forget About It
-- [Scheduling](https://en.wikipedia.org/wiki/Scheduling_(computing)): First Thing is First
+- [Scheduling](https://en.wikipedia.org/wiki/Scheduling_%28computing%28): First Thing is First
 - [Bayes' Rule](https://en.wikipedia.org/wiki/Bayes%27_theorem)
 - [Overfitting](https://en.wikipedia.org/wiki/Overfitting): When to Think Less
 - Relaxation: Let it Slide
 - Randomness: When to Live it to Chance
 - [Networking](https://en.wikipedia.org/wiki/Business_networking): How We Connect
-- [Game Theory](https://en.wikipedia.org/wiki/Game_theory): The Minds of Others 
+- [Game Theory](https://en.wikipedia.org/wiki/Game_theory): The Minds of Others
 - Computational Kindness
 
 By the way, [audible offers a 30 day trial](http://www.audible.com/offers/30free) which you can use to buy this book. I was a bit concered that it'll be hard to narrate properly, but after spending many hours listening to it, I can honestly say that the book is well narrated and very fun to listen too! 
- 
 Are you listening to a good tech book too? sharing is caring :)
