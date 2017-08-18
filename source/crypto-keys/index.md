@@ -28,6 +28,6 @@ All my [git](https://git-scm.com/) commits since *March 10, 2017* should be sign
 
 #### Further reading
 
-* [Signing Git Commits with a GPG Key](http://nishanttotla.com/blog/signing-git-commits-gpg)
+* [Commit Signing With Git, Hub, Keybase, and GPG](https://eligible.com/blog/commit-signing-with-git-hub-keybase-and-gpg/)
 * [A Git Horror Story: Repository Integrity With Signed Commits](https://mikegerwitz.com/papers/git-horror-story)
 * [GPG signature verification in GitHub](https://github.com/blog/2144-gpg-signature-verification)
