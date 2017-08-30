@@ -9,7 +9,10 @@ categories:
 date: 2017-08-30 09:24:00
 ---
 
-TL;DR: I wrote a tool that allows to run a binary as a different owner/group. You can download it from [odedlaz/runas](https://github.com/odedlaz/runas).  
+TL;DR: I wrote a tool that allows to run a binary as a different owner/group.
+
+You can download it from [odedlaz/runas](https://github.com/odedlaz/runas).  
+
 Feel free to request features, [send pull requests](https://github.com/odedlaz/runas/pulls) & [open issues](https://github.com/odedlaz/runas/issues)!
 
 # Motivation
@@ -22,8 +25,7 @@ You must be thinking that I'm re-inventing the wheel. Well, I'm not. Let look at
 - You don't want a child process to get created, because you want to run the binary  
   as part of a filter without any other processes getting in the way.
 
-A good example would be to debug an elevated app, while running your editor regularly. for example:  
-running [gdb](https://www.gnu.org/software/gdb/) and debugging a binary as root.
+A good example would be to debug an elevated app, while running your editor regularly. for example -> running [gdb](https://www.gnu.org/software/gdb/) and debugging a binary as root.
 
 You probably don't want to turn on [**S**et owner **U**ser **ID**](https://www.linux.com/blog/what-suid-and-how-set-suid-linuxunix) because that's a major security hole.  
 You also can't use `su` / `sudo` as part of your editor / IDE because they execute the target process as child, which causes many issues.
