@@ -9,7 +9,7 @@ categories:
 date: 2017-08-30 09:24:00
 ---
 
-TL;DR: I wrote a tool that allows to run a binary as a different owner/group.
+TL;DR: I wrote a tool that allows to run a binary as a different owner/group.  
 
 You can download it from [odedlaz/runas](https://github.com/odedlaz/runas).  
 
@@ -37,7 +37,7 @@ You also can't use `su` / `sudo` as part of your editor / IDE because they execu
 A tool that is easy to configure & runs the target binary with requested owner:group.  
 [runas](https://github.com/odedlaz/runas) is that tool. It does one thing, and (hopefully) does it well.  
 
-`runas` doesn't have any complicated flags or knobs.  
+`runas` doesn't have any complicated flags or knobs.
 ```console
 $ runas
 Usage: bin/runas user-spec command [args]
@@ -46,6 +46,7 @@ version: 0.1.2, license: MIT
 ```
 
 It just lets you run binaries:  
+
 ```console
 $ runas root:root bash -c 'whoami && id'
 You can't execute '/bin/bash -c whoami && id' as 'root:root': Operation not permitted
@@ -102,7 +103,7 @@ odedlaz -> root :: /usr/bin/bash -c .*
 ```
 
 And now the user can run any argument that begins with `-c`.  
-If we'd remove the previous command, we won't be able to run bash without '-c':
+If we'd remove the previous command, we won't be able to run bash without `-c`:
 ```console
 $ runas root:root bash -c id
 uid=0(root) gid=0(root) groups=0(root)

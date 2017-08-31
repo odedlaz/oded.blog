@@ -18,7 +18,7 @@ customize:
         author_title: I code during the day, and think about the bugs I created at night.
         location: Tel Aviv, Israel
         follow: https://github.com/odedlaz
-    highlight: github-gist
+    highlight: github
     sidebar: right # sidebar position, options: left, right or leave it empty
     thumbnail: false # enable posts thumbnail, options: true, false
     favicon: # path to favicon
