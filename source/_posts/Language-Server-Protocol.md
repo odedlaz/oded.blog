@@ -107,5 +107,5 @@ The quality of the clients & servers is varying, specifically for language clien
 * [Protocol History](https://github.com/Microsoft/server-protocol/wiki/Protocol-History)
 * [A Common Protocol for Languages](https://code.visualstudio.com/blogs/2016/06/27/common-protocol)
 * How Sourcegraph scales with the Language Server Protocol
-   * [The problem of Code Intelligence and the need for an open standard](https://text.sourcegraph.com/how-sourcegraph-scales-with-the-server-protocol-a4e8fd3fbae5)
-   * [Making Code Intelligence “just work”](https://text.sourcegraph.com/part-2-how-sourcegraph-scales-with-the-server-protocol-73b86175f38b#.v0dq2ua8z)
+   * [The problem of Code Intelligence and the need for an open standard](https://about.sourcegraph.com/blog/part-2-how-sourcegraph-scales-with-the-language-server-protocol/)
+   * [Making Code Intelligence “just work”](https://about.sourcegraph.com/blog/part-2-how-sourcegraph-scales-with-the-language-server-protocol/)
