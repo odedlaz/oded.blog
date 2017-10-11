@@ -63,60 +63,93 @@ One of the top uses for RAII are scope guards, which are usually used to perform
 
 I didn't like the implementation they suggested, and instead went searching for a better one. I found what I was looking for on [stackoverflow](https://stackoverflow.com/questions/10270328/the-simplest-and-neatest-c11-scopeguard/):
 ```cpp
-class ScopeGuard  {
+class ScopeGuard {
  public:
   template<class Callable>
-  ScopeGuard(Callable && undo_func) : f(std::forward<Callable>(undo_func)) {}
+  ScopeGuard(Callable &&fn) : fn_(std::forward<Callable>(fn)) {}
 
-  ScopeGuard(ScopeGuard && other) : f(std::move(other.f)) {
-    other.f = nullptr;
+  ScopeGuard(ScopeGuard &&other) : fn_(std::move(other.fn_)) {
+    other.fn_ = nullptr;
   }
 
   ~ScopeGuard() {
-    if(f) f(); // must not throw
+    // must not throw
+    if (fn_) fn_();
   }
 
-  ScopeGuard(const ScopeGuard&) = delete;
-
-  void operator = (const ScopeGuard&) = delete;
+  ScopeGuard(const ScopeGuard &) = delete;
+  void operator=(const ScopeGuard &) = delete;
 
  private:
-  std::function<void()> f;
+  std::function<void()> fn_;
 };
 ```
 
 which can be used as follows:
 ```cpp
-step1();
-scope_guard guard1 = [&]() { revert1(); };
-step2();
+std::cout << "creating" << std::endl;
+std::ofstream f("/path/to/file");
+ScopeGuard close_file = [&]() { std::cout << "closing" << std::endl;
+                                f.close(); };
+std::cout << "writing" << std::endl;
+f << "hello defer" << std::endl;
 ```
 
-The above execution flow would be: `step1() -> step2() -> revert1()`.  
-Nice, right? but the above forces us to name each ScopeGuard, which is annoying.
+The above execution flow would be: `creating -> writing -> closing`.  
+Nice, right? but it also forces us to name each ScopeGuard, which is annoying.
 
 Thank god we have macros! (never say that. same for `goto`) -
 ```cpp
-#define CONCAT_(a,b) a ## b
-#define CONCAT(a,b) CONCAT_(a,b)
-// __COUNTER__ is non-standard, but is supported by most major compilers nowadays.
-// you can replace it with __LINE__, which will work in most cases.
-#define DEFER(fn) ScopeGuard CONCAT(__defer__, __COUNTER__) = fn
+#define CONCAT_(a, b) a ## b
+#define CONCAT(a, b) CONCAT_(a,b)
+#define DEFER(fn) ScopeGuard CONCAT(__defer__, __LINE__) = fn
 ```
 
 and now we have a defer like behaviour in C++:
 ```cpp
-step1();
-DEFER([&]() { revert1(); }; );
-step2();
+std::cout << "creating" << std::endl;
+std::ofstream f("/path/to/file");
+DEFER ( [&]() { std::cout << "closing" << std::endl;
+                f.close(); } );
+std::cout << "writing" << std::endl;
+f << "hello defer" << std::endl;
 ```
 
-The neat part is that we can call *DEFER* multiple times without having to name variables:
+But why do we need the excess `[&]() { ... ; }` part? and what is it anyway?  
+`[&]` tells the compiler to pass all locals by reference, and `()` is used to indicate function args.  
+We *want* this behaviour for *all* `DEFER` calls, so let's put it in the macro: 
+
 ```cpp
-step1();
-DEFER([&]() { revert1(); }; );
-step2();
-DEFER([&]() { revert2(); }; );
+#define DEFER(fn) ScopeGuard CONCAT(__defer__, __LINE__) = [&] ( ) { fn ; }
 ```
 
-Each *DEFER* call creates a *ScopeGuard* with a random name in order to avoiding colissions.
+And now there's no need for boilerplate code: 
+```cpp
+std::ofstream f("/path/to/file");
+DEFER ( f.close() );
+f << "hello defer" << std::endl;
+```
+
+The neat part is that we can call *DEFER* multiple times without having to name variables,  
+because each *DEFER* call creates a *ScopeGuard* with a random name in order to avoiding colissions;
+```cpp
+std::ofstream f1("/path/to/file1");
+DEFER ( f1.close() );
+f1 << "hello defer" << std::endl;
+std::ofstream f2("/path/to/file2");
+DEFER ( f2.close() );
+f2 << "hello defer" << std::endl;
+```
+
+It also works with multiline functions, just like golang's `defer` keyword:
+```cpp
+std::ofstream f("/path/to/file1");
+DEFER ( { std::cout << "closing file" << std::endl;
+          f.close(); } );
+f << "hello defer" << std::endl;
+
+// curly-braces and trailing comma's are not mandatory.
+// the previous statement could've been written like this too:
+DEFER ( std::cout << "closing file" << std::endl;
+        f.close() );
+```
