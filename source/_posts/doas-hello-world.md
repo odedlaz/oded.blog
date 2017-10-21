@@ -26,10 +26,11 @@ I looked around the web and found an amazing project called `doas` that `runas` 
 *doas* is a utility that is aimed to replace *sudo* for most ordinary use cases.
 Ted Unagst's, an OpenBSD developer, explained why He originally wrote it in his blog post: [doas - dedicated openbsd application subexecutor](https://www.tedunangst.com/flak/post/doas).
 
-The gist is that `sudo` is hard to configure and does a lot more then the standard user needs. `doas` was created in order to replace `sudo` for regular folks like me and you.
+The gist is that `sudo` is hard to configure and does a lot more then the standard user needs. `doas` was created in order to replace `sudo` for regular folks like me and you.  
+Moreover, `sudo` lacks 'blacklist' behaviour which is extremely useful at times.
 
 `doas` is relatively easy to configure, and an absolute joy compared to `sudo`. It's also powerful enough for most daily use-cases.
-
+IMO, the `permit` / `deny` concept of `doas` is so powerful that it's enough to make the switch.
 
 ## Implementing doas from scratch
 
