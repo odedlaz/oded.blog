@@ -1,4 +1,4 @@
-title: Everything that is wrong with sudo, and how I fixed it
+title: Everything that is wrong with sudo, and how I'm planning to fix it
 tags:
   - c++
   - project
@@ -9,8 +9,8 @@ date: 2017-10-21 00:37:00
 ---
 
 <h1 align="center">
-  <a href="https://github.com/odedlaz/doas"><img src="/images/2017/10/doas_xkcd.png" alt="doas" width="256" height="256"/></a><br>
-  <a href="https://github.com/odedlaz/doas">doas</a>
+  <a href="https://github.com/odedlaz/suex"><img src="/images/2017/10/suex_xkcd.png" alt="suex" width="256" height="256"/></a><br>
+  <a href="https://github.com/odedlaz/suex">suex</a>
 </h1>
 
 The last few weeks have been a bit crazy.
@@ -19,7 +19,7 @@ I found myself re-implementing [`gosu`](https://github.com/tianon/gosu) because 
 
 Then, Even when I was done, I felt something was missing. `runas`, the tool I wrote, was half-way into becoming a `sudo` replacement and it bugged me I stopped mid way.
 
-I looked around the web and found an amazing project called `doas` that `runas` on steroids.
+I looked around the web and found an amazing project called `doas` that is basically `runas` on steroids.
 
 ## What is doas
 
@@ -74,17 +74,17 @@ To achieve these goals, the following design decisions were made:
 
 ## Getting started
 
-You can find pre-compiled `.deb` and `.rpm` packages in the project's [GitHub Releases Page](https://github.com/odedlaz/doas/releases).
+You can find pre-compiled `.deb` and `.rpm` packages in the project's [GitHub Releases Page](https://github.com/odedlaz/suex/releases).
 
 **[!]** [Ubuntu PPA](https://help.ubuntu.com/community/PPA) & [Fedora Copr](https://docs.pagure.org/copr.copr/)  are coming soon.
 
-You can also build from source. more information found at [`odedlaz/doas`](https://github.com/odedlaz/doas).
+You can also build from source. more information found at [`odedlaz/suex`](https://github.com/odedlaz/suex).
 
 ## Changes compared to the original
 
 ### Security checks
 
-The original `doas` doesn't check the owners & permissions of the binary and configuration file.
+`doas` doesn't check the owners & permissions of the binary and configuration file.
 `sudo` checks those, but only warns the user.
 
 This version ensures the binary and configuration file are owned by `root:root`.  
@@ -96,10 +96,10 @@ The idea is that privileged users (i.e: members of the *wheel* group) need to ex
 ### Edit mode
 
 ```bash
-doas -E
+suex -E
 ```
 
-`doas` allows any privileged user (i.e: members of the *wheel* group) to edit the configuration file safely.
+`suex` allows any privileged user (i.e: members of the *wheel* group) to edit the configuration file safely.
 Furthermore, if the configuration file is corrupted, privileged users can still access it and edit it.
 
 The edit option is similar to `visudo`, it creates a copy of the configuration and updates the real configuration only when the copy is valid.
@@ -109,20 +109,20 @@ Non-privileged users are not allowed to edit the configuration.
 ### Verbose mode
 
 ```
-doas -V
+suex -V
 ```
 
-`doas` allows to show logging information to privileged users. That information shows which rules are being loaded & how they are processed.  
+`suex` allows to show logging information to privileged users. That information shows which rules are being loaded & how they are processed.  
 
 Non-privileged users are not allowed to turn on verbose mode.
 
 ###  Dump mode
 
 ```
-doas -D
+suex -D
 ```
 
-`doas` allows the user to dump the permissions it loaded to screen.  
+`suex` allows the user to dump the permissions it loaded to screen.  
 group permissions and command globs are expanded into individual rules as well.
 
 privileged users see the permissions of all users instead of only their own.
@@ -159,7 +159,7 @@ The above rule protects `odedlaz` from accidentally running `rm -rf /` and the l
 ### one rule, multiple executables
 
 ```
-permit keepenv nopass odedlaz as root cmd /home/odedlaz/Development/doas/tools/* args .*
+permit keepenv nopass odedlaz as root cmd /home/odedlaz/Development/suex/tools/* args .*
 ```
 
-The above rule allows `odedlaz` to run any executable found at `/home/odedlaz/Development/doas/tools` with any arguments, as `root` without requiring a password.
+The above rule allows `odedlaz` to run any executable found at `/home/odedlaz/Development/suex/tools` with any arguments, as `root` without requiring a password.
