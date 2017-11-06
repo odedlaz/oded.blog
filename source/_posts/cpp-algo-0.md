@@ -19,7 +19,8 @@ I recently "binge-watched" a few CPPCon talks:
 - [Modernizing Legacy C++ Code](https://www.youtube.com/watch?v=LDxAgMe6D18)
 - [Writing Good C++14](https://www.youtube.com/watch?v=1OEu9C51K2A)
 - [Inheritance Is The Base Class of Evil](https://www.youtube.com/watch?v=bIhUE5uUFOA)
-- [extern c: Talking to C Programmers about C++](https://www.youtube.com/watch?v=D7Sd8A6_fYU&list=PLHTh1InhhwT7J5jl4vAhO1WvGHUUFgUQH)
+- [extern c: Talking to C Programmers about C++](https://www.youtube.com/watch?v=D7Sd8A6_fYU)
+- [Object Oriented Programming without Inheritance](https://www.youtube.com/watch?v=xcpSLRpOMJM)
 
 They were awesome, but one talk really got my attention - [C++ Seasoning](https://channel9.msdn.com/Events/GoingNative/2013/Cpp-Seasoning) by [Sean Parent](http://sean-parent.stlab.cc/papers-and-presentations).
 
