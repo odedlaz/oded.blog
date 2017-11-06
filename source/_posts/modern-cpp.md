@@ -57,8 +57,7 @@ TL;DR: No Raw Loops, No Raw Syntonization Primitives, No Raw Pointers.
 
 Sean also gave another talk on the subject at [Amazon's A9](https://www.a9.com) Programming Converstaions course.
 
-<
-iframe width="560" height="315" src="https://www.youtube.com/embed/IzNtM038JuI" frameborder="0" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/IzNtM038JuI" frameborder="0" allowfullscreen></iframe>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vxv74Mjt9_0" frameborder="0" allowfullscreen></iframe>
 
 ## Writing Modern C++
