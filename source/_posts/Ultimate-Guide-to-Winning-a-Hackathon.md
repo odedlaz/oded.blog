@@ -77,7 +77,7 @@ I had an amazing team. We had the best time and even got to implement two fully 
 How? First, we knew exactly what we wanted to do, and split the work between us.
 Second, we were never in competition with each other and our goal was always to learn and have fun.
 
-I came with a lot of background in real-life programming, while my peers had extensive theoretical knowledge. I never worked with Mathlab, and they never set up a system from A-Z. I never touched an ML library before, and they never worked with git.
+I came with a lot of background in real-life programming, while my peers had extensive theoretical knowledge. I never worked with Matlab, and they never set up a system from A-Z. I never touched an ML library before, and they never worked with git.
 
 Once we were done, everyone learned something:
 - Some members wrote their first python program
