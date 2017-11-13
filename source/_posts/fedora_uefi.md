@@ -1,7 +1,7 @@
-title: Migrate Fedora from BIOS to UEFI 
+title: Migrating Fedora from BIOS to UEFI
 tags:
   - linux
-permalink: doas-linux
+permalink: fedora-bios-to-uefi
 categories:
   - devops
 date: 2017-11-13 17:21:13
@@ -11,18 +11,22 @@ Let me tell you a story.
 
 This is not a sad story, but a geeky one.
 
+A story about a developer that was told it's impossible to migrate his Fedora OS from BIOS to UEFI, and against all odds, succeeded.
+
+![](/images/2017/11/xkcd-obsolete-tech.jpg)
+
 A few months ago I started working at a new place and got a shiny [Dell XPS 9560](http://www.dell.com/en-us/shop/dell-laptops/xps-15/spd/xps-15-9560-laptop).
 
-The spec was amazing. Top of the line CPU, GPU, 4k screen and even 32gb of RAM!
+The spec was amazing: Top of the line CPU, GPU, 4k screen and even 32gb of RAM!
 
 But the issues.. oh... the issues. Thank god most of them are solvable by a simple firmare upgrade. The rest are GPU issues which led me to disable the embedded NVIDIA GPU (which I don't need anyway).
 
-Ok, so how do I upgrade the firmware? fwupd to the rescue:
+Ok, so how do I upgrade the firmware? `fwupd` comes to the rescue:
 > *"**fwupd** is an open source daemon for managing the installation of firmware updates on Linux-based systems, developed by GNOME maintainer Richard Hughes..."* - [Wikipedia](https://en.wikipedia.org/wiki/Fwupd).
 
-Dell [put in a lot of effort](https://blogs.gnome.org/hughsie/2017/02/08/new-fwupd-release-and-why-you-should-buy-a-dell/) to make sure [fwupd](https://github.com/hughsie/fwupd) works great with their products, So I wasn't suprised by laptop is [supported](https://fwupd.org/lvfs/device/34578c72-11dc-4378-bc7f-b643866f598c).
+I was a few keystrokes away from getting all my issues solved!
+Dell [put in a lot of effort](https://blogs.gnome.org/hughsie/2017/02/08/new-fwupd-release-and-why-you-should-buy-a-dell/) to make sure [fwupd](https://github.com/hughsie/fwupd) works great with their products, So I wasn't suprised that my laptop is [supported](https://fwupd.org/lvfs/device/34578c72-11dc-4378-bc7f-b643866f598c).
 
-I was a few keystrokes away from getting my system up to date:
 ```bash
 $ fwupdmgr refresh
 $ fwupdmgr update
@@ -56,14 +60,15 @@ Oh wait. I'm not using [UEFI](https://en.wikipedia.org/wiki/Unified_Extensible_F
 
 My first thought: *"Oh shit. I'm f\*cked"*. My second thought: *"that doesn't make any sense!*.
 
-## Game Plan 
+## Game Plan
 
-All I need is a simple `grub-mkconfig`, but first I need to:
+All I need is a simple `grub-mkconfig` while booted in UEFI mode, but how? 
 1. Convert my paritition table to [GUID Partition Table](https://en.wikipedia.org/wiki/GUID_Partition_Table)
 2. Free up some space for an [EFI Partition](https://en.wikipedia.org/wiki/EFI_system_partition) `/boot/efi` paritition
-3. Update GRUB
+3. Update GRUB to use UEFI
 
-From now on, we'll use my own partition table as an example:
+Before we continue, I want to share we you my own partition table:
+
 ```
 Disk /dev/sda: 953.9 GiB, 1024209543168 bytes, 2000409264 sectors
 Units: sectors of 1 * 512 = 512 bytes
@@ -72,7 +77,7 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: dos
 
 Device              Start        End    Sectors   Size Type
-/dev/sda1       2048    1953791    1951744   953M Linux filesystem 
+/dev/sda1       2048    1953791    1951744   953M Linux filesystem
 /dev/sda2    1953792   60549119   58595328    28G Linux swap
 /dev/sda3   60549120  493574143  433025024 206.5G Linux filesystem
 /dev/sda4 493574144 1669111807 1175537664 560.6G Linux filesystem
@@ -80,21 +85,25 @@ Device              Start        End    Sectors   Size Type
 ```
 
 I have two OS's installed. Arch & Fedora -  
-**Arch's** `/boot` is mounted at `/dev/sda1` and `/` is mounted at `/dev/sda3`.  
-**Fedora's** `/` is mounted at `/dev/sda4`.
+- **Arch**: `/boot` is mounted at `/dev/sda1` and `/` is mounted at `/dev/sda3`.
+- **Fedora**: `/` is mounted at `/dev/sda4`.
 
 Both use `/dev/sda2` for swap, and `/dev/sda5` has some other data.  
 I don't need Arch anymore, and would like to migrate Fedora to UEFI.
 
 ## LiveUSB
 
-[Download](https://fedoraproject.org/wiki/FedorlaLiveCD) a LiveCD and burn it, or use [Fedora Media Writer](https://fedoraproject.org/wiki/How_to_create_and_use_Live_USB).  
+I know that most of the changes I had to do couldn't be done on mounted volumes, ,so I had to use a LiveCD. But nobody uses LiveCD's nowadays - LiveUSB is the word on the streets.
 
-Then, change your BIOS configuration to boot up in UEFI mode and boot it up.  
+I had two options. Either [Download](https://fedoraproject.org/wiki/FedorlaLiveCD) a LiveCD and burn it, or use [Fedora Media Writer](https://fedoraproject.org/wiki/How_to_create_and_use_Live_USB).  
+
+Then, change my BIOS configuration to boot up in UEFI mode and boot it up.
 
 ## Convert parition table to GPT
 
-This step is rather simple. Use `gdisk` to convert the partition table:
+I got the LiveUSB installed on a company thumb drive. Now I need to convert my paritition table from dos to GUID (GPT).
+
+This step is rather simple. I Used `gdisk`: 
 ```bash
 # shouldn't require a password
 $ su
@@ -113,14 +122,13 @@ Why 10GB? well, instead of trying to figure out how to install UEFI correctly, I
 
 Ok, so now - install Fedora. It should prompt you to create an [EFI partition](https://en.wikipedia.org/wiki/EFI_system_partition). Create a 1GB partition at the beginning, and use the rest for the new Fedora installation.
 
-
 ## Update GRUB
 
 Installed? Yay. Now reboot. Don't worry, you won't see your "old" Fedora installation on boot. Get it your new shiny installation, but don't get too attached, we'll destroy it in a few minutes!
 
 ### Recap
 
-We've got a new [GPT partition table](https://en.wikipedia.org/wiki/GUID_Partition_Table) with an [EFI partition](https://en.wikipedia.org/wiki/EFI_system_partition) at the beginning:
+I've got a new [GPT partition table](https://en.wikipedia.org/wiki/GUID_Partition_Table) with an [EFI partition](https://en.wikipedia.org/wiki/EFI_system_partition) at the beginning:
 
 ```
 Disk /dev/sda: 953.9 GiB, 1024209543168 bytes, 2000409264 sectors
@@ -130,22 +138,30 @@ I/O size (minimum/optimal): 512 bytes / 512 bytes
 Disklabel type: gpt
 
 Device              Start        End    Sectors   Size Type
-/dev/sda6       2048    1953791    1951744   953M EFI System 
+/dev/sda6       2048    1953791    1951744   953M EFI System
 /dev/sda7    1953792   60549119   58595328    28G Linux swap
 /dev/sda8   60549120  493574143  433025024 206.5G Linux filesystem
 /dev/sda4 493574144 1669111807 1175537664 560.6G Linux filesystem
 /dev/sda5 1669111808 2000203775  331091968 157.9G Linux filesystem
 ```
 
-Again, we have two OS's installed. Fedora' & Fedora'' -  
-**Fedora'**, the temporary one, has `/boot/efi` mounted at `/dev/sda6` and `/` mounted at `/dev/sda8`.  
-**Fedora''**, the "old" one, has `/` mounted at `/dev/sda4`.
+Again, I have two OS's installed. Fedora' & Fedora'' -
+- **Fedora'**, the temporary one, has `/boot/efi` mounted at `/dev/sda6` and `/` mounted at `/dev/sda8`.  
+- **Fedora''**, the "old" one, has `/` mounted at `/dev/sda4`.
 
 Both use `/dev/sda7` for swap.
 
-### Chroot
+### chroot
 
-[chroot](https://en.wikipedia.org/wiki/Chroot) to the rescue.
+I need `Fedora''` to mount `/dev/sda6` (`/boot/efi`) on boot, and configured to use UEFI. [chroot](https://en.wikipedia.org/wiki/Chroot) to the rescue!
+
+For those of you that have never heard of **c**hange **root**, [Wikipedia](https://en.wikipedia.org/wiki/Chroot) provides a good explanation:
+> **Chroot** is an operation that changes the apparent root directory for the current running process and their children.  
+> 
+> A program that is run in such a modified environment cannot access files and commands outside that environmental directory tree. This modified environment is called a chroot jail.
+
+So back to where we were... Let's chroot and get this over with. 
+
 ```bash
 # just login as root
 $ sudo su
@@ -165,39 +181,59 @@ $ grep "/boot/efi" /etc/fstab >> /mnt/fedora/etc/fstab
 $ chroot /mnt/fedora /bin/bash
 ```
 
-Awesome. We've got access to our Fedora installation. What's next? follow
-[Updating GRUB 2 configuration on UEFI systems](https://fedoraproject.org/wiki/GRUB_2#Updating_GRUB_2_configuration_on_UEFI_systems).
-TL;DR: 
+Awesome. I'm in `Fedora''`. Now I need to follow Fedora's [Updating GRUB 2 configuration on UEFI systems](https://fedoraproject.org/wiki/GRUB_2#Updating_GRUB_2_configuration_on_UEFI_systems).  
+
+TL;DR:
+
 ```bash
 $ sudo dnf reinstall grub2-efi grub2-efi-modules shim
 $ sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
 
-`grub2-mkconfig` should now list out all OS's on your system.  
+It worked! `grub2-mkconfig` told me it found `Fedora'` and `Fedora''`!
 
 ### Cleaning Up
 
-We're basically done! A few minor steps remain -
+I'm basically done! A few minor steps remain -
 
-First, Restart and boot into your main Fedora installation.
+First, Restart and boot into `Fedora''`.  
 
-Second, Open *GParted*, remove `/dev/sda6` and resize other partitions.  
-You might need to `swapoff` in order to resize your `swap` partition.
+Second, Open *GParted*, remove `/dev/sda6` and probably re-arrange other partitions.
 
-Third, re-create your grub config like we did before:
+Third, re-create my grub config so `Fedora'` would disappear (like we did before):
 ```bash
 $ sudo grub2-mkconfig -o /boot/efi/EFI/fedora/grub.cfg
 ```
+
+## Checking that it all works
+
+I know it sounds stupid, because the OS already booted, but why not?
+
+```bash
+$ ls /sys/firmware/efi/efivars | wc -l
+81
+
+$ efibootmgr
+BootCurrent: 0007
+Timeout: 0 seconds
+BootOrder: 0007
+Boot0000* Windows Boot Manager
+Boot0006* Linux-Firmware-Updater \fwupx64.efi
+Boot0007* Fedora
+```
+
+See? that wasn't too hard!
 
 ## Upgrading Firmware
 
 After I did all that, I reran `fwupd`:
 ```bash
 $ fwupdate --supported
-Firmware updates are not supported on this machine.
+Firmware updates are supported on this machine.
 ```
 
 Yay!
+
 ```bash
 $ fwupdmgr refresh
 $ fwupdmgr update
@@ -205,5 +241,5 @@ $ fwupdmgr update
 $ reboot
 ```
 
-Done. By the way, *ALL* the issues I had were fixed after upgrading!
+Done. By the way, *ALL* the issues I previously had were gone after upgrading!
 ![](/images/2017/11/sorry_potato.jpg)
