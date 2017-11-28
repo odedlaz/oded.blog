@@ -8,10 +8,10 @@ date: 2017-11-28 10:53:00
 ---
 
 You are not a "Java Developer".  
-You are a Software Developer, which knows to write software in Java.
+You are a Software Developer who is capable of writing software in Java.
 
-You don't want to hire "Java Developers".  
-You want to hire devs that either have extensive knowledge in Java, or have the ability to learn Java quickly, and write high quality sofware using it.
+You don't want to hire people that call themselves "Java Developers".  
+You want to hire devs that either have extensive knowledge in Java (and are also good software developers), or hire superb developers that don't, but can close the gap quickly.
 
 Java, or any other language for that matter, is just syntax. Learning a language is a long process, which consists of:
 - Understanding how to write good software with it
