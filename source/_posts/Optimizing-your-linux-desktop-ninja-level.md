@@ -263,21 +263,12 @@ you can read more about mounting `/var/log` on it [here](https://askubuntu.com
 
 ### **Mount browser cache on tmpfs**
 
-Once you have ***/tmp*** mounted on tmpfs, you might consider moving your browser cache to ***/tmp***. Browsers write many temporary files that aren't used once the browser shuts down, so moving these files to a volatile storage can boost performance and reduce HDD I/O.
+Once you have **/tmp** mounted on tmpfs, you might consider moving your browser cache to **/tmp**. Browsers write many temporary files that aren't used once the browser shuts down, so moving these files to a volatile storage can boost performance and reduce HDD I/O.
 
 #### **Google Chrome**
 
 Google Chrome has a command line argument called **disk-cache-dir**  
- You can use it to specify a directory to use as a cache:
-
-```bash
-$ mkdir -p /tmp/google-chrome-cache  
-$ chmod -R 777 /tmp/google-chrome-cache  
-# edit /usr/share/applications/google-chrome.desktop  
-$ sed -i €” €˜s/%U/-disk-cache-dir="\/tmp\/google-chrome-cache" %U/g' \  
-/usr/share/applications/google-chrome.desktop  
-$ sudo reboot # you can also just restart the shell  
-```
+ You can use it to specify a directory to use as a cache.
 
 Read more [here](http://www.insanitybit.com/2012/09/25/move-chromes-cache-to-ram-guide-for-linux-users).
 
@@ -287,10 +278,10 @@ Mozilla Firefox can be configured to change the disk cache through its configura
 
 1. Open up Firefox and enter **about:config** in the address bar
 2. Type **browser.cache.disk.enable** and set it to **true**
-3. Type **browser.cache.disk.parent_directory** and set it to  ***/tmp/firefox-cache***
+3. Type **browser.cache.disk.parent_directory** and set it to  **/tmp/firefox-cache**
 4. Type **browser.cache.memory.enable** and set it to **true**
 5. Right click -> New -> String
-6. Enter **browser.cache.memory.capacity **as preference name
+6. Enter **browser.cache.memory.capacity** as preference name
 7. Enter **-1** as the value
 
 Read more [here](https://lifehacker.com/5687850/speed-up-firefox-by-moving-your-cache-to-ram-no-ram-disk-required).
@@ -299,14 +290,14 @@ Read more [here](https://lifehacker.com/5687850/speed-up-firefox-by-moving-your-
 ## Optimizing the filesystem table
 
 **[/etc/fstab](https://en.wikipedia.org/wiki/Fstab)** is a file that's in charge of partition mounting configuration.  
- There are several configurations that you should add to ***fstab*** that increase the HDD performance:
+ There are several configurations that you should add to **fstab** that increase the HDD performance:
 
 - **noatime** - Linux saves the last access time for each file and directory, which causes significant I/O. Turning it off can improve performance, but might have a negative impact on processes that rely on this timestamp. Read more [here](http://tldp.org/LDP/solrhe/Securing-Optimizing-Linux-RH-Edition-v1.3/chap6sec73.html).
 - **nodiratime** - a subset of **noatime**, only for directories. [This is redundant](https://lwn.net/Articles/245002/) if **noatime** is set.
 - **lazytime** - atime is too expensive, noatime is probelmatic and relatime has its own drawbacks. lazytime tries to be the best of all worlds - it writes the last accessed timestamp, but only when there's a reason to do so. **I HIGHLY RECOMMEND** turning on [lazytime](https://lwn.net/Articles/621046/) instead of the previous flags.
 - **commit=N** - Linux caches writes and flushes them to disk every x seconds. This means that if your computer crashes, the last N seconds of data is lost. You can change this number to reduce I/O. read more [here](https://unix.stackexchange.com/questions/155784/advantages-disadvantages-of-increasing-commit-in-fstab).
 - **discard** - A flag to turn on continuous [TRIM](https://en.wikipedia.org/wiki/Trim_(computing%29). while continuous TRIM is not recommended, periodic TRIM is. read more [here](https://wiki.archlinux.org/index.php/Solid_State_Drives#TRIM).
-- **barrier=0** - Most file systems send write barriers to disk after fsync or during transaction commits. Write barriers enforce proper ordering of writes, making volatile disk write caches safe to use (at some performance penalty). If your **<span style="text-decoration:underline;">disks are battery-backed</span>** in one way or another (UPS and Laptops don't battery back the HDD), disabling barriers may safely improve performance. otherwise, <span style="text-decoration:underline;">**do not use this option**!</span>**.** ***barrier=0*** mount option is compatible with **ext3**, **ext4**, and **reiserfs**. Further reading about write barriers in the [ArchWiki](https://wiki.archlinux.org/index.php/Ext4#Barriers_and_performance), and [StackExchange](https://unix.stackexchange.com/questions/37696/is-disabling-barriers-for-ext4-safe-on-a-laptop-with-battery).
+- **barrier=0** - Most file systems send write barriers to disk after fsync or during transaction commits. Write barriers enforce proper ordering of writes, making volatile disk write caches safe to use (at some performance penalty). If your **<span style="text-decoration:underline;">disks are battery-backed</span>** in one way or another (UPS and Laptops don't battery back the HDD), disabling barriers may safely improve performance. otherwise, <span style="text-decoration:underline;">**do not use this option**!</span> **barrier=0** mount option is compatible with **ext3**, **ext4**, and **reiserfs**. Further reading about write barriers in the [ArchWiki](https://wiki.archlinux.org/index.php/Ext4#Barriers_and_performance), and [StackExchange](https://unix.stackexchange.com/questions/37696/is-disabling-barriers-for-ext4-safe-on-a-laptop-with-battery).
 
 
 ## Switching IO Schedulers
@@ -346,7 +337,7 @@ VLC supports VA-API and VDPAU out of the box.
 - **GPU rasterization** - Enabled
 - **GPU rasterization MSAA sample count** - 2
 - **Zero-copy rasterizer** - Enable
-- **Number of raster threads** - run ***nproc***** **in your shell and set the output number
+- **Number of raster threads** - run **nproc** in your shell and set the output number
 - **Display list 2D canvas** - Enabled
 - **LCD text antialiasing** - Enabled
 - **Fast tab/window close** - Enabled
