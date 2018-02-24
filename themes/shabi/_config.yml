@@ -47,10 +47,10 @@ comment:
     isso: # isso.oded.blog
     facebook: # enter app id
     gitment:
-        owner: odedlaz
-        repo: oded.blog.comments
-        client_id: c0d55076889ae2a8f33d
-        client_secret: i<3hummus
+        # owner: odedlaz
+        # repo: oded.blog.comments
+        # client_id: c0d55076889ae2a8f33d
+        # client_secret: i<3hummus
 
 # Plugins
 plugins:

@@ -176,7 +176,6 @@ gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
                                         [
                                           'browserify', 'fix-css-font-path',
                                           'fix-katex-css-font-path',
-                                          'fetch-newest-gitment'
                                         ],
                                         cb)});
 
