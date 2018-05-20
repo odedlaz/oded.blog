@@ -6,7 +6,6 @@ jobs:
     working_directory: ~/odedlaz/oded.blog
     steps:
       - checkout
-      - run: yarn add gulp
       - run: yarn install
       - save_cache:
           key: node-modules-{{ checksum "yarn.lock" }}
@@ -22,6 +21,7 @@ jobs:
        - checkout
        - restore_cache:
            key: node-modules-{{ checksum "yarn.lock" }}
+       - run: yarn install
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: ./node_modules/.bin/gulp build
