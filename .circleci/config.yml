@@ -41,6 +41,3 @@ workflows:
        - deploy:
          requires:
            - bake
-         filters:
-           branches:
-             ignore: master
