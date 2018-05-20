@@ -37,3 +37,6 @@ workflows:
   build-and-deploy:
     jobs:
       - bake
+      - build:
+          requires:
+            - bake
