@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: yarn install
       - save_cache:
-          key: node-modules-{{ checksum "yarn.lock" }}-{{ epoch }}
+          key: node-modules-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
             - ~/.cache/yarn
@@ -20,7 +20,7 @@ jobs:
      steps:
        - checkout
        - restore_cache:
-           key: node-modules-{{ checksum "yarn.lock" }}-
+           key: node-modules-{{ checksum "yarn.lock" }}
        - run: ./node_modules/.bin/gulp pre-deploy
        - save_cache:
            key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
@@ -33,9 +33,9 @@ jobs:
      steps:
        - checkout
        - restore_cache:
-         keys:
-           - node-modules-{{ checksum "yarn.lock" }}-
-           - public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
+           keys:
+             - node-modules-{{ checksum "yarn.lock" }}
+             - public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: echo "deploying"
