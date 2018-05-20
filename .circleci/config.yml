@@ -6,19 +6,13 @@ jobs:
     working_directory: ~/odedlaz/oded.blog
     steps:
       - checkout
-      - run: yarn global add gulp
-      - run: yarn global upgrade --latest
       - run: yarn upgrade --latest
-      - run: ./node_modules/.bin/gulp build
+      - run: yarn add gulp
       - save_cache:
-          key: dependency-cache
+          kye: node-modules-{{ checksum "yarn.lock" }}
           paths:
-            - public/
             - node_modules/
-            - ~/.cache/yarn/
-            - /usr/local/share/.cache/yarn/
-            - ~/.config/yarn/
-            - /usr/local/share/.config/yarn/
+
   deploy:
      docker:
        - image: circleci/node:10
@@ -26,10 +20,10 @@ jobs:
      steps:
        - checkout
        - restore_cache:
-           key: dependency-cache
+           kye: node-modules-{{ checksum "yarn.lock" }}
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
-       - run: ./node_modules/.bin/gulp compress
+       - run: ./node_modules/.bin/gulp build
 
 workflows:
   version: 2
