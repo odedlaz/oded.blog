@@ -6,7 +6,7 @@ jobs:
     working_directory: ~/odedlaz/oded.blog
     steps:
       - checkout
-      - run: yarn upgrade --latest
+      - run: yarn install
       - run: yarn add gulp
       - save_cache:
           key: node-modules-{{ checksum "yarn.lock" }}
