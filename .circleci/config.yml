@@ -1,10 +1,9 @@
 version: 2
 jobs:
-  build:
-    working_directory: ~/odedlaz/oded.blog
-    shell: /bin/bash --login
+  bake:
     docker:
       - image: circleci/node:10
+    working_directory: ~/odedlaz/oded.blog
     steps:
       - checkout
       - run: yarn global add gulp
@@ -16,22 +15,32 @@ jobs:
          key: dependency-cache
          paths:
             - node_modules/
-  staging:
-     working_directory: ~/odedlaz/oded.blog
+  build:
      docker:
        - image: circleci/node:10
+     working_directory: ~/odedlaz/oded.blog
      steps:
-       - restore_cache:
-       - run: rm -rf .deploy_git/
+       - checkout
        - run: ./node_modules/.bin/gulp build
+  deploy:
+     docker:
+       - image: circleci/node:10
+     working_directory: ~/odedlaz/oded.blog
+     steps:
+       - checkout
+       - run: ./node_modules/.bin/gulp compress
+
 workflows:
    version: 2
-   workflow:
+   build-and-deploy:
       jobs:
+         - bake
          - build
-         - staging:
             requires:
-               - build
+               - bake
+         - deploy:
+           requires:
+             - bake
             filters:
                branches:
                   ignore: master
