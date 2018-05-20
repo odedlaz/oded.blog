@@ -11,19 +11,17 @@ jobs:
       - run: yarn upgrade --latest
       - run: git config --global user.name "CircleCI"
       - run: git config --global user.email "ci@oded.blog"
-      - save_cache:
-          key: dependency-cache
-          paths:
-            - node_modules/
   build:
      docker:
        - image: circleci/node:10
      working_directory: ~/odedlaz/oded.blog
      steps:
-       - restore_cache:
-           key: dependency-cache
        - checkout
        - run: ./node_modules/.bin/gulp build
+       - save_cache:
+           key: dependency-cache
+             paths:
+               - node_modules/
   deploy:
      docker:
        - image: circleci/node:10
