@@ -1,0 +1,57 @@
+version: 2
+jobs:
+  install-prerequisites:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/odedlaz/oded.blog
+    steps:
+      - checkout
+      - run: yarn install
+      - save_cache:
+          key: node-modules-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
+            - ~/.cache/yarn
+
+  generate:
+     docker:
+       - image: circleci/node:10
+     working_directory: ~/odedlaz/oded.blog
+     steps:
+       - checkout
+       - restore_cache:
+           key: node-modules-{{ checksum "yarn.lock" }}
+       - run: ./node_modules/.bin/gulp pre-deploy
+       - save_cache:
+           key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
+           paths:
+             - public/
+  deploy:
+     docker:
+       - image: circleci/node:10
+     working_directory: ~/odedlaz/oded.blog
+     steps:
+       - checkout
+       - restore_cache:
+           key: node-modules-{{ checksum "yarn.lock" }}
+       - restore_cache:
+           key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
+       - run: git config --global user.name "CircleCI"
+       - run: git config --global user.email "ci@oded.blog"
+       - run: ./node_modules/.bin/gulp hexo-deploy
+       - run: ./node_modules/.bin/gulp post-deploy
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - install-prerequisites
+      - generate:
+          requires:
+            - install-prerequisites
+      - deploy:
+          requires:
+            - generate
+          filters:
+            branches:
+              only: master

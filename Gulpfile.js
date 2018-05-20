@@ -166,12 +166,6 @@ gulp.task('fix-katex-css-font-path', () => {
       .pipe(gulp.dest('./public/css'));
 });
 
-gulp.task('fetch-newest-gitment', function() {
-  return download('https://imsun.github.io/gitment/dist/gitment.browser.js')
-      .pipe(replace(/gh-oauth\.imsun\.net/g, 'gh-auth.oded.blog'))
-      .pipe(gulp.dest('./public/js'))
-});
-
 gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
                                         [
                                           'browserify', 'fix-css-font-path',
@@ -179,11 +173,13 @@ gulp.task('build', (cb) => {runSequence('hexo-clean', 'hexo-generate',
                                         ],
                                         cb)});
 
-gulp.task('post-deploy',
-          (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
-
 gulp.task('default', (cb) => {runSequence('build', 'text-compress', cb)});
 
+gulp.task('pre-deploy',
+          (cb) => {runSequence('build', 'compress', 'google-verification', cb)});
+
 gulp.task('deploy',
-          (cb) => {runSequence('build', 'compress', 'google-verification',
-                               'hexo-deploy', 'post-deploy', cb)});
+          (cb) => {runSequence('pre-deploy', 'hexo-deploy', 'post-deploy', cb)});
+
+gulp.task('post-deploy',
+          (cb) => {runSequence([ 'purge-cf-cache', 'ifttt-webhook' ], cb)});
