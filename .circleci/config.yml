@@ -20,14 +20,16 @@ jobs:
        - image: circleci/node:10
      working_directory: ~/odedlaz/oded.blog
      steps:
-       - checkout
+       - restore_cache:
+         key: dependency-cache
        - run: ./node_modules/.bin/gulp build
   deploy:
      docker:
        - image: circleci/node:10
      working_directory: ~/odedlaz/oded.blog
      steps:
-       - checkout
+       - restore_cache:
+         key: dependency-cache
        - run: ./node_modules/.bin/gulp compress
 
 workflows:
