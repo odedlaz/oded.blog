@@ -21,7 +21,7 @@ jobs:
      working_directory: ~/odedlaz/oded.blog
      steps:
        - restore_cache:
-         key: dependency-cache
+           key: dependency-cache
        - run: ./node_modules/.bin/gulp build
   deploy:
      docker:
