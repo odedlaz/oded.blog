@@ -13,6 +13,7 @@ jobs:
       - save_cache:
           key: dependency-cache
           paths:
+            - public/
             - node_modules/
             - ~/.cache/yarn/
             - /usr/local/share/.cache/yarn/
