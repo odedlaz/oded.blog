@@ -32,12 +32,12 @@ jobs:
 
 workflows:
    version: 2
-   build-and-deploy:
+   build_and_deploy:
      jobs:
        - bake
        - build:
-         requires:
-           - bake
+           requires:
+             - bake
        - deploy:
          requires:
            - bake
