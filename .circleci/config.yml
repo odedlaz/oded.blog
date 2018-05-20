@@ -21,10 +21,9 @@ jobs:
      docker:
        - image: circleci/node:10
      steps:
-        - restore_cache:
-        - deploy:
-          - run: rm -rf .deploy_git/
-          - run: ./node_modules/.bin/gulp build
+       - restore_cache:
+       - run: rm -rf .deploy_git/
+       - run: ./node_modules/.bin/gulp build
 workflows:
    version: 2
    workflow:
