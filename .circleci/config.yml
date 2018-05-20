@@ -23,9 +23,9 @@ jobs:
            key: node-modules-{{ checksum "yarn.lock" }}-
        - run: ./node_modules/.bin/gulp pre-deploy
        - save_cache:
-         key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
-         paths:
-            - public/
+           key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
+           paths:
+             - public/
   deploy:
      docker:
        - image: circleci/node:10
@@ -39,7 +39,7 @@ jobs:
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: echo "deploying"
-       - run: ./node_modules/.bin/gulp compress
+       - run: ./node_modules/.bin/gulp deploy
        - run: ls public/
 
 workflows:
@@ -53,3 +53,6 @@ workflows:
       - deploy:
           requires:
             - pre-deploy
+          filters:
+            branches:
+              ignore: master
