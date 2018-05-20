@@ -33,8 +33,6 @@ workflows:
    deploy:
       jobs:
          - staging:
-            requires:
-               - build
             filters:
                branches:
                   ignore: master
