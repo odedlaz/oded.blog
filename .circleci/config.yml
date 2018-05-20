@@ -33,11 +33,9 @@ jobs:
      steps:
        - checkout
        - restore_cache:
-           key:
-             - node-modules-{{ checksum "yarn.lock" }}
+           key: node-modules-{{ checksum "yarn.lock" }}
        - restore_cache:
-           key:
-             - public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
+           key: public-{{ checksum "yarn.lock" }}-{{ .Branch }}-{{ .Revision }}
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: echo "deploying"
