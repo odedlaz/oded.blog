@@ -15,6 +15,9 @@ jobs:
           paths:
             - node_modules/
             - ~/.cache/yarn/
+            - /usr/local/share/.cache/yarn/
+            - ~/.config/yarn/
+            - /usr/local/share/.config/yarn/
   deploy:
      docker:
        - image: circleci/node:10
