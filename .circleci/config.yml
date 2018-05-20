@@ -9,7 +9,7 @@ jobs:
       - run: yarn upgrade --latest
       - run: yarn add gulp
       - save_cache:
-          kye: node-modules-{{ checksum "yarn.lock" }}
+          key: node-modules-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
 
