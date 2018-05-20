@@ -21,7 +21,7 @@ jobs:
        - checkout
        - restore_cache:
            key: node-modules-{{ checksum "yarn.lock" }}
-       - run: yarn install
+       - run: yarn add gulp
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: ./node_modules/.bin/gulp build
