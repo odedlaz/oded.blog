@@ -13,6 +13,16 @@ jobs:
             - node_modules/
             - ~/.cache/yarn
 
+  pre-deploy:
+     docker:
+       - image: circleci/node:10
+     working_directory: ~/odedlaz/oded.blog
+     steps:
+       - checkout
+       - restore_cache:
+           key: node-modules-{{ checksum "yarn.lock" }}-
+       - run: ./node_modules/.bin/gulp pre-deploy
+
   deploy:
      docker:
        - image: circleci/node:10
@@ -23,13 +33,16 @@ jobs:
            key: node-modules-{{ checksum "yarn.lock" }}-
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
-       - run: ./node_modules/.bin/gulp build
+       - run: echo "deploying"
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - bake
-      - deploy:
+      - pre-deploy:
           requires:
             - bake
+      - deploy:
+          requires:
+            - pre-deploy
