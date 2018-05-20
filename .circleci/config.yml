@@ -22,29 +22,8 @@ jobs:
          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
          paths:
             - node_modules/
-  staging:
-     working_directory: ~/odedlaz/oded.blog
-     steps:
-        - run: rm -rf .deploy_git/
-        - run: ./node_modules/.bin/gulp build
-
-  production:
-     working_directory: ~/odedlaz/oded.blog
-     steps:
-        - run: rm -rf .deploy_git/
-        - run: ./node_modules/.bin/gulp deploy
 workflows:
    version: 2
    pre:
       jobs:
          - build
-   deploy:
-      jobs:
-         - staging:
-            filters:
-               branches:
-                  ignore: master
-         - production:
-            filters:
-               branches:
-                  only: master
