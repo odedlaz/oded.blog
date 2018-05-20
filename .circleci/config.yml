@@ -39,7 +39,6 @@ jobs:
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
        - run: echo "deploying"
-       - run: ./node_modules/.bin/gulp deploy
        - run: ls public/
 
 workflows:
