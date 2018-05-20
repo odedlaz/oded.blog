@@ -21,18 +21,18 @@ jobs:
      docker:
        - image: circleci/node:10
      steps:
-        restore_cache:
+        - restore_cache:
         - deploy:
           - run: rm -rf .deploy_git/
           - run: ./node_modules/.bin/gulp build
 workflows:
    version: 2
-   pre:
+   workflow:
       jobs:
          - build
-   deploy:
-      jobs:
          - staging:
+            requires:
+               - build
             filters:
                branches:
                   ignore: master
