@@ -8,10 +8,12 @@ jobs:
       - checkout
       - run: yarn install
       - run: yarn add gulp
+      - run: yarn upgrade
       - save_cache:
           key: node-modules-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
+            - ~/.cache/yarn
 
   deploy:
      docker:
