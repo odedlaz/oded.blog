@@ -12,8 +12,8 @@ jobs:
       - run: git config --global user.name "CircleCI"
       - run: git config --global user.email "ci@oded.blog"
       - save_cache:
-         key: dependency-cache
-         paths:
+          key: dependency-cache
+          paths:
             - node_modules/
   build:
      docker:
@@ -22,6 +22,7 @@ jobs:
      steps:
        - restore_cache:
            key: dependency-cache
+       - checkout
        - run: ./node_modules/.bin/gulp build
   deploy:
      docker:
