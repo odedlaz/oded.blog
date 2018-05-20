@@ -8,7 +8,7 @@ jobs:
       - checkout
       - run: yarn install
       - save_cache:
-          key: node-modules-{{ checksum "yarn.lock" }}
+          key: node-modules-{{ checksum "yarn.lock" }}-{{ epoch }}
           paths:
             - node_modules/
             - ~/.cache/yarn
@@ -20,7 +20,7 @@ jobs:
      steps:
        - checkout
        - restore_cache:
-           key: node-modules-{{ checksum "yarn.lock" }}
+           key: node-modules-{{ checksum "yarn.lock" }}-
        - run: yarn add gulp
        - run: git config --global user.name "CircleCI"
        - run: git config --global user.email "ci@oded.blog"
