@@ -9,26 +9,22 @@ jobs:
       - run: yarn global add gulp
       - run: yarn global upgrade --latest
       - run: yarn upgrade --latest
-      - run: git config --global user.name "CircleCI"
-      - run: git config --global user.email "ci@oded.blog"
-  build:
-     docker:
-       - image: circleci/node:10
-     working_directory: ~/odedlaz/oded.blog
-     steps:
-       - checkout
-       - run: ./node_modules/.bin/gulp build
-       - save_cache:
-           key: dependency-cache
-             paths:
-               - node_modules/
+      - run: ./node_modules/.bin/gulp build
+      - save_cache:
+          key: dependency-cache
+          paths:
+            - node_modules/
+            - ~/.cache/yarn/
   deploy:
      docker:
        - image: circleci/node:10
      working_directory: ~/odedlaz/oded.blog
      steps:
+       - checkout
        - restore_cache:
-         key: dependency-cache
+           key: dependency-cache
+       - run: git config --global user.name "CircleCI"
+       - run: git config --global user.email "ci@oded.blog"
        - run: ./node_modules/.bin/gulp compress
 
 workflows:
@@ -36,6 +32,6 @@ workflows:
   build-and-deploy:
     jobs:
       - bake
-      - build:
+      - deploy:
           requires:
             - bake
