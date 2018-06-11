@@ -85,8 +85,8 @@ def get_geolocation():
     r = requests.post("https://www.googleapis.com/geolocation/v1/geolocate",
                       json=data,
                       params={"key": GOOGLE_MAPS_API_ACCESS_KEY })
-    if not r.ok:
-        raise IOError(r.text)
+
+    r.raise_for_status()
 
     location = r.json()["location"]
     return location["lng"], location["lat"]
@@ -105,8 +105,8 @@ def get_weather_forecast(longitude, latitude):
 
     resp = requests.get("https://api.openweathermap.org/data/2.5/weather",
                         params=params)
-    if not resp.ok:
-        raise IOError(resp.text)
+
+    resp.raise_for_status()
 
     return resp.json()
 ```
