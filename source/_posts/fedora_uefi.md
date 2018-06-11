@@ -119,10 +119,6 @@ Boot0000  Fedora
 
 Bam!
 
-If I wasn't, I would've seen the following output:
-```bash
-```
-
 ## Convert parition table to GPT
 
 I got the LiveUSB installed on a company thumb drive. Now I need to convert my paritition table from dos to GUID (GPT).
@@ -153,8 +149,7 @@ A few notes:
 
 ### Recap
 
-I’ve got a new [GPT partition
-table](https://en.wikipedia.org/wiki/GUID_Partition_Table) with an [EFI partition](https://en.wikipedia.org/wiki/EFI_system_partition) at the beginning:
+I’ve got a new [GPT partition table](https://en.wikipedia.org/wiki/GUID_Partition_Table) with an [EFI partition](https://en.wikipedia.org/wiki/EFI_system_partition) at the beginning:
 
 
 ```
@@ -207,7 +202,7 @@ Awesome. I'm in my `Fedora`. Now I need to follow Fedora's [Updating GRUB 2 conf
 
 TL;DR:
 
-Oh wait! My paranoid self wants keeps asking to check that I have an fstab entry
+Oh wait! My paranoid self keeps asking to check that I have an fstab entry
 for the efi partition. Let's give him some peace:
 
 ```bash
