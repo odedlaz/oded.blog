@@ -3,12 +3,14 @@ id: 45
 updated: '2017-06-22 06:07:12'
 date: 2014-11-26 10:15:01
 ---
+{% raw %}
 <center><pre><b><i>Run from what's comfortable.
 Forget safety.
 Live where you fear to live.
 Destroy your reputation.
 Be notorious.</i></b>
-[Rumi](https://en.wikipedia.org/wiki/Rumi)</pre></center>
+<a href=https://en.wikipedia.org/wiki/Rumi>Rumi</a></pre></center>
+{% raw %}
 
 Hey There! Pleased to e-meet you!
  
